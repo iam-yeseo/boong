@@ -162,6 +162,25 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 }
 #bottombar button:active{transform:scale(.96);}
 #shopBtn{background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
+#pauseBtn{flex:0 0 auto;background:rgba(255,255,255,.1);color:var(--cream);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 3px 0 rgba(0,0,0,.3);padding:12px 16px;}
+/* ── 일시정지 오버레이 ── */
+#pauseOv{
+  position:absolute;inset:0;z-index:55;background:rgba(10,13,26,.88);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+#pauseOv.on{display:flex;}
+#pauseOv .card{
+  background:#241D16;border:2px solid var(--gold);border-radius:20px;
+  padding:28px 24px;max-width:300px;width:100%;text-align:center;animation:pop .3s ease;
+}
+#pauseOv h2{font-family:'Jua';color:var(--gold);font-size:24px;margin-bottom:6px;}
+#pauseOv .sub{font-size:12px;opacity:.6;margin-bottom:18px;}
+#pauseOv button{
+  width:100%;font-family:'Jua';font-size:17px;padding:14px;border-radius:14px;border:none;
+  background:var(--tarp);color:#fff;cursor:pointer;box-shadow:0 3px 0 var(--tarp-dark);
+  transition:transform .1s;
+}
+#pauseOv button:active{transform:scale(.96);}
 #shopBtn .n{background:#fff;color:var(--tarp);border-radius:8px;padding:0 6px;font-size:11px;margin-left:4px;}
 
 /* ── 상점 시트 ── */
@@ -245,6 +264,7 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
   <div id="fillings"></div>
 
   <div id="bottombar">
+    <button id="pauseBtn">⏸ 일시정지</button>
     <button id="shopBtn">🏪 상점 <span class="n" id="shopNoti" style="display:none">!</span></button>
   </div>
 
@@ -260,6 +280,14 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
   </div>
 
   <div id="toast"></div>
+
+  <div id="pauseOv">
+    <div class="card">
+      <h2>⏸ 일시정지</h2>
+      <div class="sub">화덕이 잠시 쉬고 있어요. 손님도 얌전히 기다립니다 🐟</div>
+      <button id="resumeBtn">▶ 계속 장사하기</button>
+    </div>
+  </div>
 
   <div id="tuto">
     <div class="card">
@@ -331,10 +359,11 @@ const EVENTS = {
 };
 
 /* ══════════ 상수/상태 ══════════ */
-const BASE_COOK=20, DONE_WINDOW=14;
+const BASE_COOK=10, DONE_WINDOW=14;
 const MOLD_MAX=9, HEAT_MAX=20, TRAY_CAP_MAX=40;
 const S = {
   money:3000, sales:0,
+  paused:true,         /* 접속 시 일시정지 상태로 시작 */
   unlocked:['pat'], promo:{},
   heatLv:1,            /* 화력 레벨 1~20 */
   trayMax:10,          /* 진열대 10~40 */
@@ -351,7 +380,7 @@ const F=id=>FILLINGS.find(f=>f.id===id);
 const trayTotal=()=>Object.values(S.tray).reduce((a,b)=>a+b,0);
 
 /* 공식들 */
-const cookTime=()=>BASE_COOK*(1-0.03*S.heatLv);                 /* Lv1=19.4초 … Lv20=8초 */
+const cookTime=()=>BASE_COOK*(1-0.03*S.heatLv);                 /* Lv1=9.7초 … Lv20=4초 */
 const moldUpCost=()=>10000*(S.moldCount+1);                      /* 2→3: 3만 … 8→9: 9만 */
 const heatUpCost=()=>30000*S.heatLv;
 const trayLv=()=>(S.trayMax-10)/2+1;
@@ -660,7 +689,7 @@ function renderShop(){
       ico:'⛽', name:'화력 강화', lv:`Lv.${S.heatLv}/${HEAT_MAX}`,
       desc:S.heatLv<HEAT_MAX
         ?`굽는 시간 ${cookTime().toFixed(1)}초 → ${(BASE_COOK*(1-0.03*(S.heatLv+1))).toFixed(1)}초`
-        :'최대 화력! 1마리당 8초',
+        :'최대 화력! 1마리당 4초',
       btn:S.heatLv<HEAT_MAX?fmt(heatUpCost())+'원':'MAX',
       disabled:S.heatLv>=HEAT_MAX||S.money<heatUpCost(),
       owned:S.heatLv>=HEAT_MAX, data:'data-up="heat"',
@@ -691,6 +720,7 @@ function renderShop(){
 let last=performance.now();
 function loop(now){
   const dt=Math.min(0.1,(now-last)/1000);last=now;
+  if(S.paused){requestAnimationFrame(loop);return;}
 
   /* 굽기 */
   const ct=cookTime();
@@ -792,7 +822,9 @@ document.querySelectorAll('#shop .tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#shop .tabs button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');renderShop();
 });
-$('#tutoBtn').onclick=()=>{$('#tuto').remove();spawnCustomer();};
+$('#pauseBtn').onclick=()=>{S.paused=true;$('#pauseOv').classList.add('on');};
+$('#resumeBtn').onclick=()=>{S.paused=false;$('#pauseOv').classList.remove('on');};
+$('#tutoBtn').onclick=()=>{$('#tuto').remove();S.paused=false;spawnCustomer();};
 
 /* ══════════ 초기화 ══════════ */
 for(let i=0;i<S.moldCount;i++)S.molds.push({state:'empty'});
