@@ -10,9 +10,8 @@
   --night:#141B33; --night2:#1E2848;
   --tarp:#E8622C; --tarp-dark:#C24A1C;
   --iron:#2E2C33; --iron-light:#3E3B45;
-  --gold:#E9B45B; --raw:#EFDDB4; --burnt:#5C3A22;
-  --cream:#FFF6E5; --coal:#FF6B35; --ink:#241D16;
-  --good:#7ECB7E; --bad:#E05B5B; --vip:#8FD3FF;
+  --gold:#E9B45B; --cream:#FFF6E5; --coal:#FF6B35; --ink:#241D16;
+  --good:#7ECB7E; --bad:#E05B5B;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
 html,body{height:100%;}
@@ -54,21 +53,13 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 .rep .bar{width:60px;height:5px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:3px;overflow:hidden;}
 .rep .bar i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .3s;}
 
-/* ── 일차/타이머/콤보 스트립 ── */
-#daystrip{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 16px 0;font-family:'Jua';font-size:13px;z-index:4;position:relative;
+/* ── 명성 효과 스트립 ── */
+#repstrip{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:5px 16px 0;font-family:'Jua';font-size:11px;color:rgba(255,246,229,.55);
+  z-index:4;position:relative;
 }
-#daystrip .day{color:var(--gold);}
-#daystrip .time{color:var(--cream);}
-#daystrip .time.hurry{color:var(--bad);animation:blink .6s infinite;}
-#combo{
-  color:#FF9E5E;opacity:0;transition:opacity .25s;font-size:13px;
-}
-#combo.on{opacity:1;}
-#combo.bump{animation:comboBump .3s ease;}
-@keyframes comboBump{40%{transform:scale(1.25);}}
-@keyframes blink{50%{opacity:.4;}}
+#repstrip b{color:var(--gold);font-weight:normal;}
 
 /* ── 손님 줄 ── */
 #customers{display:flex;gap:8px;padding:8px 14px 4px;min-height:100px;z-index:4;position:relative;}
@@ -109,7 +100,7 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 }
 #tray::-webkit-scrollbar{display:none;}
 #tray .label{font-family:'Jua';font-size:11px;color:var(--gold);white-space:nowrap;}
-#tray .cap{font-family:'Jua';font-size:10px;opacity:.5;white-space:nowrap;}
+#tray .cap{font-family:'Jua';font-size:10px;opacity:.5;white-space:nowrap;margin-left:auto;}
 .tray-item{display:flex;align-items:center;gap:3px;font-family:'Jua';font-size:13px;white-space:nowrap;}
 .tray-item svg{width:26px;height:16px;}
 #tray .none{font-size:11px;color:rgba(255,255,255,.35);white-space:nowrap;}
@@ -124,7 +115,7 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
   box-shadow:inset 0 2px 10px rgba(0,0,0,.6), 0 4px 0 #191720, 0 0 30px rgba(255,107,53,.12);
   padding:12px 10px;
   display:grid;gap:9px;align-content:center;justify-content:center;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,minmax(0,150px));
 }
 #griddle.cols3{grid-template-columns:repeat(3,1fr);}
 .mold{
@@ -145,6 +136,7 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 .mold .badge{position:absolute;top:1px;right:8px;font-family:'Jua';font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(0,0,0,.55);}
 .mold.done .badge{background:var(--good);color:#12240F;animation:blink .6s infinite;}
 .mold.burnt .badge{background:var(--bad);color:#fff;}
+@keyframes blink{50%{opacity:.5;}}
 .mold .hint{font-size:11px;color:rgba(255,255,255,.28);font-family:'Jua';}
 .steam{position:absolute;font-size:11px;opacity:0;animation:steam 1.6s ease-out infinite;pointer-events:none;}
 @keyframes steam{0%{opacity:0;transform:translateY(4px);}30%{opacity:.7;}100%{opacity:0;transform:translateY(-16px);}}
@@ -162,41 +154,21 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 .chip.sel{background:var(--gold);color:var(--ink);border-color:var(--gold);transform:scale(1.05);}
 .chip .price{font-size:10px;opacity:.65;}
 
-/* ── 하단 안내 ── */
-#bottombar{padding:0 14px 12px;z-index:4;position:relative;text-align:center;}
-#bottombar .notice{font-family:'Jua';font-size:11px;color:rgba(255,246,229,.45);}
-
-/* ── 정산 오버레이 ── */
-#dayend{
-  position:absolute;inset:0;z-index:30;background:rgba(10,13,26,.92);
-  display:none;align-items:center;justify-content:center;padding:20px;
+/* ── 하단 바 ── */
+#bottombar{display:flex;gap:8px;padding:0 14px 14px;z-index:4;position:relative;}
+#bottombar button{
+  flex:1;font-family:'Jua';font-size:15px;padding:12px;border-radius:14px;border:none;
+  cursor:pointer;transition:transform .1s;
 }
-#dayend.on{display:flex;}
-#dayend .card{
-  background:#241D16;border:2px solid var(--gold);border-radius:20px;
-  padding:22px 20px;width:100%;max-width:340px;animation:pop .35s ease;
-}
-#dayend h2{font-family:'Jua';color:var(--gold);font-size:21px;text-align:center;margin-bottom:4px;}
-#dayend .sub{text-align:center;font-size:12px;opacity:.6;margin-bottom:14px;}
-#dayend table{width:100%;font-size:13px;border-collapse:collapse;}
-#dayend td{padding:6px 2px;border-bottom:1px dashed rgba(255,255,255,.12);}
-#dayend td:last-child{text-align:right;font-family:'Jua';}
-#dayend tr.profit td{border-bottom:none;padding-top:10px;font-family:'Jua';font-size:16px;color:#FFD98A;}
-#dayend .btns{display:flex;gap:8px;margin-top:18px;}
-#dayend .btns button{
-  flex:1;font-family:'Jua';font-size:15px;padding:12px;border-radius:14px;border:none;cursor:pointer;
-  transition:transform .1s;
-}
-#dayend .btns button:active{transform:scale(.96);}
-#openShop{background:rgba(255,255,255,.12);color:var(--cream);position:relative;}
-#openShop .n{background:var(--tarp);color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;}
-#nextDay{background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
+#bottombar button:active{transform:scale(.96);}
+#shopBtn{background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
+#shopBtn .n{background:#fff;color:var(--tarp);border-radius:8px;padding:0 6px;font-size:11px;margin-left:4px;}
 
 /* ── 상점 시트 ── */
 #shop{
   position:absolute;left:0;right:0;bottom:0;z-index:40;
   background:#241D16;border-radius:20px 20px 0 0;
-  max-height:75dvh;display:flex;flex-direction:column;
+  max-height:76dvh;display:flex;flex-direction:column;
   transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.9,.3,1);
   box-shadow:0 -8px 40px rgba(0,0,0,.6);
 }
@@ -213,20 +185,24 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 .shop-item .ico .dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:2px solid rgba(0,0,0,.25);}
 .shop-item .info{flex:1;min-width:0;}
 .shop-item .name{font-family:'Jua';font-size:14px;}
+.shop-item .name .lv{font-size:11px;color:var(--gold);margin-left:4px;}
 .shop-item .desc{font-size:11px;opacity:.6;margin-top:2px;}
 .shop-item .buy{font-family:'Jua';font-size:13px;padding:8px 12px;border-radius:10px;border:none;background:var(--gold);color:var(--ink);cursor:pointer;white-space:nowrap;}
 .shop-item .buy:disabled{background:rgba(255,255,255,.12);color:rgba(255,255,255,.35);}
 .shop-item.owned .buy{background:rgba(126,203,126,.2);color:var(--good);}
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:35;opacity:0;pointer-events:none;transition:opacity .3s;}
+#dim.on{opacity:1;pointer-events:auto;}
 
 /* ── 토스트/플로팅/튜토리얼 ── */
 #toast{
   position:absolute;top:13%;left:50%;transform:translateX(-50%);z-index:50;
   background:rgba(36,29,22,.92);color:var(--gold);font-family:'Jua';font-size:13px;
   padding:10px 18px;border-radius:20px;border:1.5px solid var(--gold);
-  opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;
+  opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;max-width:92%;
+  overflow:hidden;text-overflow:ellipsis;
 }
 #toast.on{opacity:1;}
-.float{position:absolute;z-index:45;font-family:'Jua';font-size:15px;pointer-events:none;animation:floatUp .9s ease-out forwards;text-shadow:0 2px 4px rgba(0,0,0,.6);}
+.float{position:absolute;z-index:45;font-family:'Jua';font-size:14px;pointer-events:none;animation:floatUp .9s ease-out forwards;text-shadow:0 2px 4px rgba(0,0,0,.6);}
 @keyframes floatUp{from{opacity:1;}to{opacity:0;transform:translateY(-44px);}}
 #tuto{position:absolute;inset:0;z-index:60;background:rgba(10,13,26,.9);display:flex;align-items:center;justify-content:center;padding:24px;}
 #tuto .card{background:#241D16;border:2px solid var(--gold);border-radius:20px;padding:24px 20px;max-width:340px;text-align:center;}
@@ -251,10 +227,9 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
     </div>
   </header>
 
-  <div id="daystrip">
-    <span class="day" id="dayLabel">☀️ 1일차</span>
-    <span id="combo">🔥 콤보 ×0</span>
-    <span class="time" id="timeLabel">1:30</span>
+  <div id="repstrip">
+    <span>⭐ 명성 보너스 · 손님 유입 <b id="repBonus">+0%</b></span>
+    <span>🔥 굽는 시간 <b id="cookLabel">20초</b></span>
   </div>
 
   <div id="customers"></div>
@@ -269,25 +244,17 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 
   <div id="fillings"></div>
 
-  <div id="bottombar"><span class="notice">🏪 상점·설비는 하루 영업이 끝나면 열 수 있어요</span></div>
-
-  <div id="dayend">
-    <div class="card">
-      <h2 id="endTitle">1일차 영업 종료!</h2>
-      <div class="sub">오늘 하루도 수고했어요 🐟</div>
-      <table id="endTable"></table>
-      <div class="btns">
-        <button id="openShop">🏪 상점 <span class="n" id="shopNoti" style="display:none">NEW</span></button>
-        <button id="nextDay">다음 날 ▶</button>
-      </div>
-    </div>
+  <div id="bottombar">
+    <button id="shopBtn">🏪 상점 <span class="n" id="shopNoti" style="display:none">!</span></button>
   </div>
 
+  <div id="dim"></div>
   <div id="shop">
     <div class="head"><span>🏪 붕어빵 상점</span><span class="m"><span id="shopMoney"></span>원</span><button id="shopClose">✕</button></div>
     <div class="tabs">
       <button data-tab="menu" class="on">신메뉴</button>
-      <button data-tab="gear">설비</button>
+      <button data-tab="up">강화</button>
+      <button data-tab="promo">홍보</button>
     </div>
     <div class="list" id="shopList"></div>
   </div>
@@ -299,11 +266,11 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
       <h2>🐟 붕어빵 타이쿤</h2>
       <p>
         <b>① 굽기</b> — 속 재료 선택 후 빈 틀 터치. 다 익으면 눌러서 진열대로! 방치하면 타요.<br>
-        <b>② 판매</b> — 손님이 원하는 붕어빵이 진열대에 있으면 손님을 터치.<br>
-        <b>③ 콤보</b> — 손님을 연속으로 만족시키면 보너스 수익! 손님을 놓치면 끊겨요.<br>
-        <b>④ 하루 장사</b> — 시간이 끝나면 정산 후 상점에서 신메뉴·설비 구매. 남은 붕어빵은 폐기돼요!
+        <b>② 자동 판매</b> — 진열대에 손님이 원하는 붕어빵이 있으면 알아서 사 가요. 급하면 손님을 직접 터치해도 OK.<br>
+        <b>③ 성장</b> — 상점에서 틀·화력·진열대를 강화하고 홍보로 손님을 늘리세요. 알바생을 고용하면 진열까지 자동!<br>
+        <b>④ 명성</b> — 많이 팔수록 명성이 올라 손님이 더 자주 찾아옵니다.
       </p>
-      <button id="tutoBtn">1일차 장사 시작!</button>
+      <button id="tutoBtn">장사 시작!</button>
     </div>
   </div>
 </div>
@@ -332,50 +299,65 @@ const FILLINGS = [
   {id:'nutella',name:'누텔라',  color:'#3E2A1E', price:4200, cost:800, unlock:140000, desc:'헤이즐넛의 유혹'},
   {id:'mint',  name:'민트초코', color:'#5CD6C0', price:5000, cost:900, unlock:200000, desc:'호불호 끝판왕'},
 ];
-const GEAR = [
-  {id:'mold6', name:'틀 확장 (6구)',   ico:'🔥', price:12000,  desc:'한 번에 6마리를 굽는다', req:null},
-  {id:'mold9', name:'틀 확장 (9구)',   ico:'🔥', price:60000,  desc:'대형 무쇠틀! 9마리 동시에', req:'mold6'},
-  {id:'tray1', name:'진열대 확장 I',   ico:'🧺', price:15000,  desc:'진열 가능 수량 12 → 20개', req:null},
-  {id:'tray2', name:'진열대 확장 II',  ico:'🧺', price:70000,  desc:'진열 가능 수량 20 → 30개', req:'tray1'},
-  {id:'gas1',  name:'화력 강화 I',     ico:'⛽', price:20000,  desc:'굽는 속도 25% 증가', req:null},
-  {id:'gas2',  name:'화력 강화 II',    ico:'⛽', price:80000,  desc:'굽는 속도 추가 25% 증가', req:'gas1'},
-  {id:'stove', name:'연탄난로',        ico:'🪵', price:35000,  desc:'손님이 따뜻해서 30% 더 오래 기다림', req:null},
-  {id:'sign',  name:'네온 간판',       ico:'💡', price:50000,  desc:'손님이 더 자주 찾아온다', req:null},
-  {id:'alba',  name:'알바생 고용',     ico:'🧤', price:120000, desc:'다 익은 붕어빵을 자동으로 진열', req:null},
+/* 홍보(1회 구매) */
+const PROMO = [
+  {id:'tent',  name:'비닐천막',   ico:'⛺', price:15000,  desc:'바람을 막아 손님 대기 시간 +10%'},
+  {id:'stove', name:'연탄난로',   ico:'🪵', price:35000,  desc:'따뜻해서 손님 대기 시간 +20%'},
+  {id:'sns',   name:'SNS 홍보',   ico:'📱', price:40000,  desc:'손님이 더 자주 방문함'},
+  {id:'neon',  name:'네온 간판',  ico:'💡', price:90000,  desc:'손님이 더 더 자주 방문함'},
+  {id:'balloon',name:'붕어빵 풍선',ico:'🎈', price:180000, desc:'손님이 더 더 더 자주 방문함'},
+  {id:'alba',  name:'알바생 고용', ico:'🧤', price:250000, desc:'다 익은 붕어빵을 자동으로 진열함'},
 ];
 const LEVELS = [
-  {name:'노점 새내기', sales:0},
-  {name:'골목 명물',   sales:15},
-  {name:'동네 맛집',   sales:40},
-  {name:'붕어빵 장인', sales:90},
+  {name:'노점 새내기',     sales:0},
+  {name:'골목 명물',       sales:15},
+  {name:'동네 맛집',       sales:40},
+  {name:'붕어빵 장인',     sales:90},
   {name:'전국 3대 붕어빵', sales:180},
-  {name:'붕어빵 재벌', sales:320},
+  {name:'붕어빵 명가',     sales:320},
+  {name:'붕어빵 재벌',     sales:550},
+  {name:'붕어빵의 神',     sales:900},
 ];
-/* 이벤트 손님 */
+/* 이벤트 손님 8종 (weight: 등장 가중치) */
 const EVENTS = {
-  vip:     {tag:'💎 VIP',      face:'🤵', payMul:2,   patMul:0.65, qtyR:[1,2], msg:'VIP 손님! 값을 2배로 쳐준대요'},
-  group:   {tag:'👨‍👩‍👧‍👦 단체손님', face:'🚌', payMul:1,   patMul:1.6,  qtyR:[5,8], msg:'단체 주문이 들어왔어요!'},
-  streamer:{tag:'📹 먹방 유튜버', face:'🤳', payMul:1.2, patMul:1,    qtyR:[2,3], msg:'유튜버 등장! 완판하면 명성 대박'},
+  vip:     {w:3, tag:'💎 VIP',        face:'🤵', payMul:2,   patMul:0.65, qtyR:[1,2], msg:'VIP 손님! 값을 2배로 쳐준대요'},
+  group:   {w:3, tag:'🚌 단체손님',    face:'🚌', payMul:1,   patMul:1.6,  qtyR:[5,8], msg:'단체 주문이 들어왔어요!'},
+  streamer:{w:2, tag:'📹 먹방 유튜버', face:'🤳', payMul:1.2, patMul:1,    qtyR:[2,3], msg:'유튜버 등장! 완판하면 명성 대박'},
+  critic:  {w:2, tag:'🧐 미식평론가',  face:'🧐', payMul:1.5, patMul:0.9,  qtyR:[1,1], msg:'미식평론가! 제일 비싼 붕어빵만 먹는대요', expensive:true},
+  hurry:   {w:3, tag:'⏱️ 바쁜 직장인', face:'💼', payMul:1.8, patMul:0.4,  qtyR:[1,1], msg:'"빨리요 빨리! 회의 5분 전!"'},
+  student: {w:2, tag:'🎓 수험생',      face:'🎓', payMul:1,   patMul:1.2,  qtyR:[2,2], msg:'수험생 등장! 붕어빵은 합격 기원 간식'},
+  santa:   {w:1, tag:'🎅 산타',        face:'🎅', payMul:1,   patMul:1.3,  qtyR:[3,3], msg:'산타?! 착한 사장에겐 선물이 있다는데…'},
+  cat:     {w:2, tag:'🐈 길고양이',    face:'🐈', payMul:0,   patMul:1.5,  qtyR:[1,1], msg:'길고양이가 애처롭게 쳐다봅니다…'},
 };
 
-/* ══════════ 상태 ══════════ */
-const DAY_LEN=90, COOK_TIME=6.5, DONE_WINDOW=5.5;
+/* ══════════ 상수/상태 ══════════ */
+const BASE_COOK=20, DONE_WINDOW=14;
+const MOLD_MAX=9, HEAT_MAX=20, TRAY_CAP_MAX=40;
 const S = {
-  money:3000, sales:0, day:1, phase:'day', dayTime:DAY_LEN,
-  unlocked:['pat'], gear:{},
+  money:3000, sales:0,
+  unlocked:['pat'], promo:{},
+  heatLv:1,            /* 화력 레벨 1~20 */
+  trayMax:10,          /* 진열대 10~40 */
   sel:'pat',
-  molds:[], moldCount:4,
-  tray:{}, trayMax:12,
+  molds:[], moldCount:2,
+  tray:{},
   customers:[null,null,null],
   spawnT:2.0,
-  combo:0,
-  dayStat:{rev:0,exp:0,served:0,lost:0,maxCombo:0,discard:0},
+  lastLv:0,
 };
 const $=q=>document.querySelector(q);
 const fmt=n=>n.toLocaleString('ko-KR');
 const F=id=>FILLINGS.find(f=>f.id===id);
 const trayTotal=()=>Object.values(S.tray).reduce((a,b)=>a+b,0);
-const comboMul=()=>1+Math.min(S.combo,10)*0.05; /* 최대 +50% */
+
+/* 공식들 */
+const cookTime=()=>BASE_COOK*(1-0.03*S.heatLv);                 /* Lv1=19.4초 … Lv20=8초 */
+const moldUpCost=()=>10000*(S.moldCount+1);                      /* 2→3: 3만 … 8→9: 9만 */
+const heatUpCost=()=>30000*S.heatLv;
+const trayLv=()=>(S.trayMax-10)/2+1;
+const trayUpCost=()=>20000*trayLv();
+const waitMul=()=>(S.promo.stove?1.2:1)*(S.promo.tent?1.1:1);
+const visitMul=()=>(S.promo.sns?0.85:1)*(S.promo.neon?0.75:1)*(S.promo.balloon?0.65:1);
 
 function fishSVG(fillColor, doneness){
   const body = doneness===0?'#EFDDB4':doneness===1?'#E9B45B':'#4A2E1A';
@@ -395,20 +377,18 @@ function renderHUD(){
   const lv=levelInfo();
   $('#lvName').textContent=lv.name;
   $('#repBar').style.width=(lv.prog*100)+'%';
-}
-function renderTime(){
-  const t=Math.max(0,Math.ceil(S.dayTime));
-  const el=$('#timeLabel');
-  el.textContent=`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`;
-  el.classList.toggle('hurry',t<=15&&S.phase==='day');
-}
-function renderCombo(bump){
-  const el=$('#combo');
-  el.classList.toggle('on',S.combo>=2);
-  if(S.combo>=2){
-    el.textContent=`🔥 콤보 ×${S.combo} (+${Math.min(S.combo,10)*5}%)`;
-    if(bump){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
+  $('#repBonus').textContent='+'+(lv.idx*12)+'%';
+  $('#cookLabel').textContent=cookTime().toFixed(1).replace(/\.0$/,'')+'초';
+  if(lv.idx>S.lastLv){
+    S.lastLv=lv.idx;
+    toast(`⭐ 명성 상승! [${lv.name}] 손님이 더 자주 찾아옵니다`);
   }
+  const canBuy = FILLINGS.some(f=>!S.unlocked.includes(f.id)&&S.money>=f.unlock)
+    || PROMO.some(p=>!S.promo[p.id]&&S.money>=p.price)
+    || (S.moldCount<MOLD_MAX&&S.money>=moldUpCost())
+    || (S.heatLv<HEAT_MAX&&S.money>=heatUpCost())
+    || (S.trayMax<TRAY_CAP_MAX&&S.money>=trayUpCost());
+  $('#shopNoti').style.display=canBuy?'':'none';
 }
 
 /* ══════════ 속 선택 / 진열대 ══════════ */
@@ -442,10 +422,10 @@ function buildGriddle(){
 }
 function paintMold(i){
   const m=S.molds[i];
-  if(m.rendered===m.state)return; /* 상태 같으면 다시 안 그림 */
+  if(m.rendered===m.state)return;
   m.rendered=m.state;
   m.el.className='mold '+(m.state!=='empty'?m.state:'');
-  if(m.state==='empty'){m.el.innerHTML=`<span class="hint">+ 반죽 붓기</span>`;return;}
+  if(m.state==='empty'){m.el.innerHTML=`<span class="hint">+ 반죽 붓기</span>`;m.bar=null;return;}
   const f=F(m.filling);
   if(m.state==='cooking'){
     m.el.innerHTML=`${fishSVG(f.color,0)}<span class="steam" style="left:${20+(i*13)%50}%">💨</span><div class="prog"><i></i></div>`;
@@ -458,7 +438,7 @@ function paintMold(i){
 }
 function tickMoldBar(m){
   if(!m.bar)return;
-  if(m.state==='cooking')m.bar.style.width=Math.min(100,m.prog/COOK_TIME*100)+'%';
+  if(m.state==='cooking')m.bar.style.width=Math.min(100,m.prog/cookTime()*100)+'%';
   else if(m.state==='done')m.bar.style.width=Math.max(0,(1-m.doneT/DONE_WINDOW)*100)+'%';
 }
 
@@ -500,7 +480,7 @@ function tickCustomerBar(c){
 let toastT;
 function toast(msg){
   const t=$('#toast');t.textContent=msg;t.classList.add('on');
-  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1700);
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1800);
 }
 function floatText(x,y,txt,color){
   const el=document.createElement('div');
@@ -508,83 +488,129 @@ function floatText(x,y,txt,color){
   el.style.left=x+'px';el.style.top=y+'px';el.style.color=color;
   $('#app').appendChild(el);setTimeout(()=>el.remove(),950);
 }
-function floatAt(ev,txt,color){
+function floatAtEl(target,txt,color){
   const r=$('#app').getBoundingClientRect();
-  floatText(ev.clientX-r.left,ev.clientY-r.top-24,txt,color);
+  const b=target.getBoundingClientRect();
+  floatText(b.left-r.left+b.width/2-14+(Math.random()*20-10), b.top-r.top-6, txt, color);
+}
+
+/* ══════════ 판매 처리 ══════════ */
+function sellTo(i, amount){
+  const c=S.customers[i];
+  if(!c||c.leaving)return 0;
+  const have=S.tray[c.filling]||0;
+  const give=Math.min(have,c.qty,amount);
+  if(give<=0)return 0;
+  S.tray[c.filling]-=give;
+  c.qty-=give;
+  if(c.qtyEl)c.qtyEl.textContent=c.qty;
+  const evd=c.event?EVENTS[c.event]:null;
+  const earn=Math.round(give*F(c.filling).price*(evd?evd.payMul:1));
+  S.money+=earn;
+  if(c.el)floatAtEl(c.el, earn>0?`+${fmt(earn)}원`:'🩷', earn>0?'#FFD98A':'#FF9EB5');
+  if(c.qty<=0)completeOrder(i);
+  renderTray();renderHUD();
+  return give;
+}
+function completeOrder(i){
+  const c=S.customers[i];
+  S.sales++;
+  switch(c.event){
+    case 'streamer':{
+      S.sales+=3;
+      const bonus=3000+levelInfo().idx*1500;
+      S.money+=bonus;
+      toast(`📹 "여기 미쳤어요 여러분!" 명성 UP! +${fmt(bonus)}원`);
+      break;
+    }
+    case 'critic':
+      S.sales+=5;
+      toast('🧐 "…인정하지. 별 다섯 개." 명성이 크게 올랐어요!');
+      break;
+    case 'santa':{
+      const gift=10000;
+      S.money+=gift;
+      toast(`🎅 "호호호! 착한 사장 선물이야" +${fmt(gift)}원`);
+      break;
+    }
+    case 'cat':
+      S.sales+=2;
+      toast('🐈 냐옹— 고양이가 단골이 됐어요. 훈훈한 소문이 퍼집니다 (명성 UP)');
+      break;
+    case 'vip':
+      toast('💎 "값어치를 하는군." VIP가 만족했어요');
+      break;
+    case 'student':{
+      const tip=Math.floor(F(c.filling).price*0.5);
+      S.money+=tip;
+      toast(`🎓 "이거 먹고 합격할게요!" 팁 +${fmt(tip)}원`);
+      break;
+    }
+    case 'hurry':
+      toast('💼 "감사합니다!!" 직장인이 뛰어갑니다');
+      break;
+    default:
+      if(Math.random()<0.12){
+        const tip=Math.floor(F(c.filling).price*0.5);
+        S.money+=tip;
+        toast(`팁 +${fmt(tip)}원! "잘 먹을게요~" 🥰`);
+      }
+  }
+  c.leaving=true;
+  if(c.el)c.el.classList.add('leaving');
+  setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
 }
 
 /* ══════════ 액션 ══════════ */
 function tapMold(i,ev){
-  if(S.phase!=='day')return;
   const m=S.molds[i];
   if(m.state==='empty'){
     const f=F(S.sel);
     if(S.money<f.cost){toast('재료비가 부족해요! 😢');return;}
-    S.money-=f.cost;S.dayStat.exp+=f.cost;
+    S.money-=f.cost;
     Object.assign(m,{state:'cooking',filling:S.sel,prog:0,doneT:0});
     paintMold(i);renderHUD();
   }else if(m.state==='done'){
     if(trayTotal()>=S.trayMax){toast('진열대가 꽉 찼어요! 🧺');return;}
     S.tray[m.filling]=(S.tray[m.filling]||0)+1;
     Object.assign(m,{state:'empty'});
-    paintMold(i);renderTray();
-    if(ev)floatAt(ev,'🐟','var(--gold)');
+    paintMold(i);renderTray();renderHUD();
   }else if(m.state==='burnt'){
     Object.assign(m,{state:'empty'});
     paintMold(i);
     toast('탄 붕어빵은 버렸어요 🗑️');
   }
 }
-function tapCustomer(i,ev){
-  if(S.phase!=='day')return;
+function tapCustomer(i){
   const c=S.customers[i];
   if(!c||c.leaving)return;
-  const have=S.tray[c.filling]||0;
-  if(have<=0){toast(`${F(c.filling).name} 붕어빵이 없어요!`);return;}
-  const give=Math.min(have,c.qty);
-  S.tray[c.filling]-=give;
-  c.qty-=give;
-  c.qtyEl.textContent=c.qty;
-  const evd=c.event?EVENTS[c.event]:null;
-  const earn=Math.round(give*F(c.filling).price*(evd?evd.payMul:1)*comboMul());
-  S.money+=earn;S.dayStat.rev+=earn;
-  if(ev)floatAt(ev,`+${fmt(earn)}원`,'#FFD98A');
-  if(c.qty<=0){
-    S.sales++;S.dayStat.served++;
-    S.combo++;S.dayStat.maxCombo=Math.max(S.dayStat.maxCombo,S.combo);
-    renderCombo(true);
-    if(c.event==='streamer'){
-      S.sales+=3;
-      const bonus=3000+levelInfo().idx*1000;
-      S.money+=bonus;S.dayStat.rev+=bonus;
-      toast(`📹 "구독자 여러분 여기 미쳤어요!" 명성 UP! +${fmt(bonus)}원`);
-    }else if(c.event==='vip'){
-      toast('💎 "값어치를 하는군." VIP가 만족했어요');
-    }else if(Math.random()<0.15){
-      const tip=Math.floor(F(c.filling).price*0.5);
-      S.money+=tip;S.dayStat.rev+=tip;
-      toast(`팁 +${fmt(tip)}원! "잘 먹을게요~" 🥰`);
-    }
-    c.leaving=true;c.el.classList.add('leaving');
-    setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
-  }
-  renderTray();renderHUD();
+  if((S.tray[c.filling]||0)<=0){toast(`${F(c.filling).name} 붕어빵이 없어요!`);return;}
+  sellTo(i,99); /* 터치하면 있는 만큼 한꺼번에 */
 }
 
 /* ══════════ 손님 스폰 ══════════ */
 const FACES=['👵','👴','🧑','👧','👦','👩','👨','🧕','👮','🧑‍🎄','🧑‍💼','👩‍🦰'];
+function pickEvent(){
+  if(S.sales<5||Math.random()>=0.14)return null;
+  const pool=[];
+  for(const[k,v]of Object.entries(EVENTS))for(let i=0;i<v.w;i++)pool.push(k);
+  return pool[Math.floor(Math.random()*pool.length)];
+}
 function spawnCustomer(){
   const slot=S.customers.findIndex(c=>c===null);
   if(slot<0)return;
   const lv=levelInfo().idx;
-  let event=null;
-  if(S.day>=2&&Math.random()<0.13){
-    const keys=Object.keys(EVENTS);
-    event=keys[Math.floor(Math.random()*keys.length)];
-  }
+  const event=pickEvent();
   const evd=event?EVENTS[event]:null;
-  const filling=S.unlocked[Math.floor(Math.random()*S.unlocked.length)];
-  const basePat=(14+lv*1.5)*(S.gear.stove?1.3:1)*(evd?evd.patMul:1);
+  let filling;
+  if(evd&&evd.expensive){
+    filling=S.unlocked.reduce((a,b)=>F(a).price>=F(b).price?a:b);
+  }else if(event==='cat'){
+    filling='pat'; /* 고양이는 팥붕만 */
+  }else{
+    filling=S.unlocked[Math.floor(Math.random()*S.unlocked.length)];
+  }
+  const basePat=(15+lv*1.2)*waitMul()*(evd?evd.patMul:1);
   const qty=evd
     ? evd.qtyR[0]+Math.floor(Math.random()*(evd.qtyR[1]-evd.qtyR[0]+1))
     : 1+Math.floor(Math.random()*(2+Math.min(lv,3)));
@@ -592,56 +618,21 @@ function spawnCustomer(){
     filling,qty,event,
     face:evd?evd.face:FACES[Math.floor(Math.random()*FACES.length)],
     patience:basePat,maxP:basePat,leaving:false,
+    buyT:1.2, /* 자동 구매 첫 대기 */
   };
   paintCustomer(slot);
   if(evd)toast(evd.msg);
 }
 
-/* ══════════ 하루 흐름 ══════════ */
-function endDay(){
-  S.phase='end';
-  /* 남은 손님 정리 */
-  S.customers.forEach((c,i)=>{if(c){S.customers[i]=null;paintCustomer(i);}});
-  /* 틀·진열대 폐기 집계 */
-  let discard=trayTotal();
-  S.molds.forEach((m,i)=>{
-    if(m.state==='done'||m.state==='burnt'||m.state==='cooking')discard++;
-    Object.assign(m,{state:'empty'});paintMold(i);
-  });
-  S.dayStat.discard=discard;
-  S.tray={};renderTray();
-  S.combo=0;renderCombo();
-  /* 정산표 */
-  const d=S.dayStat;
-  $('#endTitle').textContent=`${S.day}일차 영업 종료!`;
-  $('#endTable').innerHTML=`
-    <tr><td>🐟 판매 완료 손님</td><td>${d.served}명</td></tr>
-    <tr><td>💢 놓친 손님</td><td>${d.lost}명</td></tr>
-    <tr><td>🔥 최대 콤보</td><td>×${d.maxCombo}</td></tr>
-    <tr><td>🗑️ 폐기된 붕어빵</td><td>${d.discard}개</td></tr>
-    <tr><td>매출</td><td>+${fmt(d.rev)}원</td></tr>
-    <tr><td>재료비</td><td>−${fmt(d.exp)}원</td></tr>
-    <tr class="profit"><td>순이익</td><td>${d.rev-d.exp>=0?'+':''}${fmt(d.rev-d.exp)}원</td></tr>`;
-  /* 상점 NEW 표시 */
-  const canBuy = FILLINGS.some(f=>!S.unlocked.includes(f.id)&&S.money>=f.unlock)
-    || GEAR.some(g=>!S.gear[g.id]&&S.money>=g.price&&(!g.req||S.gear[g.req]));
-  $('#shopNoti').style.display=canBuy?'':'none';
-  $('#dayend').classList.add('on');
-}
-function startDay(){
-  S.day++;
-  S.phase='day';
-  S.dayTime=DAY_LEN;
-  S.dayStat={rev:0,exp:0,served:0,lost:0,maxCombo:0,discard:0};
-  S.spawnT=1.5;
-  $('#dayLabel').textContent=`☀️ ${S.day}일차`;
-  $('#dayend').classList.remove('on');
-  $('#shop').classList.remove('open');
-  renderTime();
-  toast(`${S.day}일차 장사 시작! 🔥`);
-}
-
 /* ══════════ 상점 ══════════ */
+function shopRow({ico,name,lv,desc,btn,disabled,owned,data}){
+  return `<div class="shop-item ${owned?'owned':''}">
+    <div class="ico">${ico}</div>
+    <div class="info"><div class="name">${name}${lv?`<span class="lv">${lv}</span>`:''}</div>
+    <div class="desc">${desc}</div></div>
+    <button class="buy" ${data} ${disabled?'disabled':''}>${btn}</button>
+  </div>`;
+}
 function renderShop(){
   $('#shopMoney').textContent=fmt(S.money);
   const tab=document.querySelector('#shop .tabs .on').dataset.tab;
@@ -657,71 +648,91 @@ function renderShop(){
           ${owned?'보유중':f.unlock===0?'기본':fmt(f.unlock)+'원'}</button>
       </div>`;
     }).join('');
+  }else if(tab==='up'){
+    html+=shopRow({
+      ico:'🔥', name:'틀 확장', lv:`${S.moldCount}/${MOLD_MAX}구`,
+      desc:S.moldCount<MOLD_MAX?`틀 1개 추가 (${S.moldCount}구 → ${S.moldCount+1}구)`:'최대치! 9구 대형 무쇠틀',
+      btn:S.moldCount<MOLD_MAX?fmt(moldUpCost())+'원':'MAX',
+      disabled:S.moldCount>=MOLD_MAX||S.money<moldUpCost(),
+      owned:S.moldCount>=MOLD_MAX, data:'data-up="mold"',
+    });
+    html+=shopRow({
+      ico:'⛽', name:'화력 강화', lv:`Lv.${S.heatLv}/${HEAT_MAX}`,
+      desc:S.heatLv<HEAT_MAX
+        ?`굽는 시간 ${cookTime().toFixed(1)}초 → ${(BASE_COOK*(1-0.03*(S.heatLv+1))).toFixed(1)}초`
+        :'최대 화력! 1마리당 8초',
+      btn:S.heatLv<HEAT_MAX?fmt(heatUpCost())+'원':'MAX',
+      disabled:S.heatLv>=HEAT_MAX||S.money<heatUpCost(),
+      owned:S.heatLv>=HEAT_MAX, data:'data-up="heat"',
+    });
+    html+=shopRow({
+      ico:'🧺', name:'진열대 확장', lv:`${S.trayMax}/${TRAY_CAP_MAX}마리`,
+      desc:S.trayMax<TRAY_CAP_MAX?`진열 가능 수량 +2 (${S.trayMax} → ${S.trayMax+2}마리)`:'최대치! 40마리 진열 가능',
+      btn:S.trayMax<TRAY_CAP_MAX?fmt(trayUpCost())+'원':'MAX',
+      disabled:S.trayMax>=TRAY_CAP_MAX||S.money<trayUpCost(),
+      owned:S.trayMax>=TRAY_CAP_MAX, data:'data-up="tray"',
+    });
   }else{
-    html=GEAR.map(g=>{
-      const owned=!!S.gear[g.id];
-      const locked=g.req&&!S.gear[g.req];
-      return `<div class="shop-item ${owned?'owned':''}">
-        <div class="ico">${g.ico}</div>
-        <div class="info"><div class="name">${g.name}</div><div class="desc">${g.desc}${locked?' · 선행 설비 필요':''}</div></div>
-        <button class="buy" data-gear="${g.id}" ${owned||locked||S.money<g.price?'disabled':''}>
-          ${owned?'보유중':fmt(g.price)+'원'}</button>
-      </div>`;
+    html=PROMO.map(p=>{
+      const owned=!!S.promo[p.id];
+      return shopRow({
+        ico:p.ico, name:p.name, lv:'',
+        desc:p.desc,
+        btn:owned?'보유중':fmt(p.price)+'원',
+        disabled:owned||S.money<p.price,
+        owned, data:`data-promo="${p.id}"`,
+      });
     }).join('');
   }
   $('#shopList').innerHTML=html;
 }
 
 /* ══════════ 게임 루프 ══════════ */
-let last=performance.now(), secAcc=0;
+let last=performance.now();
 function loop(now){
   const dt=Math.min(0.1,(now-last)/1000);last=now;
-  if(S.phase==='day'){
-    /* 시간 */
-    S.dayTime-=dt;
-    secAcc+=dt;
-    if(secAcc>0.25){secAcc=0;renderTime();}
-    if(S.dayTime<=0){endDay();requestAnimationFrame(loop);return;}
 
-    /* 굽기 */
-    const speed=(S.gear.gas1?1.25:1)*(S.gear.gas2?1.25:1);
-    S.molds.forEach((m,i)=>{
-      if(m.state==='cooking'){
-        m.prog+=dt*speed;
-        if(m.prog>=COOK_TIME){m.state='done';m.doneT=0;paintMold(i);}
-        else tickMoldBar(m);
-      }else if(m.state==='done'){
-        m.doneT+=dt;
-        if(S.gear.alba&&trayTotal()<S.trayMax){
-          S.tray[m.filling]=(S.tray[m.filling]||0)+1;
-          Object.assign(m,{state:'empty'});paintMold(i);renderTray();
-        }else if(m.doneT>=DONE_WINDOW){m.state='burnt';paintMold(i);}
-        else tickMoldBar(m);
-      }
-    });
-
-    /* 손님 인내심 */
-    S.customers.forEach((c,i)=>{
-      if(!c||c.leaving)return;
-      c.patience-=dt;
-      tickCustomerBar(c);
-      if(c.patience<=0){
-        c.leaving=true;c.el.classList.add('leaving');
-        S.dayStat.lost++;
-        if(S.combo>0){S.combo=0;renderCombo();toast('손님을 놓쳐서 콤보가 끊겼어요… 💢');}
-        else toast('손님이 그냥 가버렸어요… 💢');
-        setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
-      }
-    });
-
-    /* 스폰 */
-    S.spawnT-=dt;
-    if(S.spawnT<=0&&S.dayTime>4){
-      spawnCustomer();
-      const lv=levelInfo().idx;
-      const base=Math.max(3.0, 8-lv*0.9)*(S.gear.sign?0.7:1);
-      S.spawnT=base*(0.7+Math.random()*0.6);
+  /* 굽기 */
+  const ct=cookTime();
+  S.molds.forEach((m,i)=>{
+    if(m.state==='cooking'){
+      m.prog+=dt;
+      if(m.prog>=ct){m.state='done';m.doneT=0;paintMold(i);}
+      else tickMoldBar(m);
+    }else if(m.state==='done'){
+      m.doneT+=dt;
+      if(S.promo.alba&&trayTotal()<S.trayMax){
+        S.tray[m.filling]=(S.tray[m.filling]||0)+1;
+        Object.assign(m,{state:'empty'});paintMold(i);renderTray();
+      }else if(m.doneT>=DONE_WINDOW){m.state='burnt';paintMold(i);}
+      else tickMoldBar(m);
     }
+  });
+
+  /* 손님: 자동 구매 + 인내심 */
+  S.customers.forEach((c,i)=>{
+    if(!c||c.leaving)return;
+    c.buyT-=dt;
+    if(c.buyT<=0&&(S.tray[c.filling]||0)>0){
+      sellTo(i,1);
+      c.buyT=1.0;
+    }
+    c.patience-=dt;
+    tickCustomerBar(c);
+    if(c.patience<=0){
+      c.leaving=true;if(c.el)c.el.classList.add('leaving');
+      toast(c.event==='cat'?'🐈 고양이가 시무룩하게 떠났어요…':'손님이 그냥 가버렸어요… 💢');
+      setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
+    }
+  });
+
+  /* 스폰: 명성 + 홍보 효과 */
+  S.spawnT-=dt;
+  if(S.spawnT<=0){
+    spawnCustomer();
+    const lv=levelInfo().idx;
+    const base=Math.max(2.2, 7.5-lv*0.75)*visitMul();
+    S.spawnT=base*(0.7+Math.random()*0.6);
   }
   requestAnimationFrame(loop);
 }
@@ -731,9 +742,10 @@ document.addEventListener('click',ev=>{
   const mold=ev.target.closest('.mold');
   if(mold){tapMold(+mold.dataset.i,ev);return;}
   const cust=ev.target.closest('.customer');
-  if(cust){tapCustomer(+cust.dataset.c,ev);return;}
+  if(cust){tapCustomer(+cust.dataset.c);return;}
   const chip=ev.target.closest('.chip');
   if(chip){S.sel=chip.dataset.f;renderFillings();return;}
+
   const menuBtn=ev.target.closest('[data-menu]');
   if(menuBtn&&!menuBtn.disabled){
     const f=F(menuBtn.dataset.menu);
@@ -744,29 +756,42 @@ document.addEventListener('click',ev=>{
     }
     return;
   }
-  const gearBtn=ev.target.closest('[data-gear]');
-  if(gearBtn&&!gearBtn.disabled){
-    const g=GEAR.find(x=>x.id===gearBtn.dataset.gear);
-    if(S.money>=g.price){
-      S.money-=g.price;S.gear[g.id]=true;
-      if(g.id==='mold6')S.moldCount=6;
-      if(g.id==='mold9')S.moldCount=9;
-      if(g.id==='tray1')S.trayMax=20;
-      if(g.id==='tray2')S.trayMax=30;
-      while(S.molds.length<S.moldCount)S.molds.push({state:'empty'});
-      buildGriddle();renderTray();renderShop();renderHUD();
-      toast(`${g.name} 구매 완료! ✨`);
+  const upBtn=ev.target.closest('[data-up]');
+  if(upBtn&&!upBtn.disabled){
+    const kind=upBtn.dataset.up;
+    if(kind==='mold'&&S.moldCount<MOLD_MAX&&S.money>=moldUpCost()){
+      S.money-=moldUpCost();S.moldCount++;
+      S.molds.push({state:'empty'});
+      buildGriddle();
+      toast(`틀 확장! 이제 ${S.moldCount}구 🔥`);
+    }else if(kind==='heat'&&S.heatLv<HEAT_MAX&&S.money>=heatUpCost()){
+      S.money-=heatUpCost();S.heatLv++;
+      toast(`화력 강화 Lv.${S.heatLv}! 굽는 시간 ${cookTime().toFixed(1)}초 ⛽`);
+    }else if(kind==='tray'&&S.trayMax<TRAY_CAP_MAX&&S.money>=trayUpCost()){
+      S.money-=trayUpCost();S.trayMax+=2;
+      renderTray();
+      toast(`진열대 확장! 최대 ${S.trayMax}마리 🧺`);
+    }
+    renderShop();renderHUD();
+    return;
+  }
+  const promoBtn=ev.target.closest('[data-promo]');
+  if(promoBtn&&!promoBtn.disabled){
+    const p=PROMO.find(x=>x.id===promoBtn.dataset.promo);
+    if(S.money>=p.price){
+      S.money-=p.price;S.promo[p.id]=true;
+      toast(`${p.name} 구매 완료! ✨`);
+      renderShop();renderHUD();
     }
     return;
   }
 });
-$('#openShop').onclick=()=>{$('#shop').classList.add('open');renderShop();};
-$('#shopClose').onclick=()=>$('#shop').classList.remove('open');
+$('#shopBtn').onclick=()=>{$('#shop').classList.add('open');$('#dim').classList.add('on');renderShop();};
+$('#shopClose').onclick=$('#dim').onclick=()=>{$('#shop').classList.remove('open');$('#dim').classList.remove('on');};
 document.querySelectorAll('#shop .tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#shop .tabs button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');renderShop();
 });
-$('#nextDay').onclick=startDay;
 $('#tutoBtn').onclick=()=>{$('#tuto').remove();spawnCustomer();};
 
 /* ══════════ 초기화 ══════════ */
@@ -780,7 +805,7 @@ for(let i=0;i<14;i++){
   $('#app').appendChild(s);
 }
 buildSlots();buildGriddle();
-renderHUD();renderFillings();renderTray();renderTime();
+renderHUD();renderFillings();renderTray();
 requestAnimationFrame(loop);
 </script>
 </body>
