@@ -29,7 +29,66 @@ body{
 .snow{position:absolute;top:-10px;color:rgba(255,255,255,.55);pointer-events:none;animation:fall linear infinite;z-index:1;}
 @keyframes fall{to{transform:translateY(105dvh) translateX(24px);}}
 
-/* ── 천막 헤더 ── */
+/* ══ 공통 오버레이/카드 ══ */
+.ov{position:absolute;inset:0;z-index:70;background:rgba(10,13,26,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.ov.on{display:flex;}
+.card{background:#241D16;border:2px solid var(--gold);border-radius:20px;padding:22px 20px;width:100%;max-width:340px;animation:pop .3s ease;max-height:86dvh;display:flex;flex-direction:column;}
+.card h2{font-family:'Jua';color:var(--gold);font-size:21px;text-align:center;margin-bottom:4px;}
+.card .sub{text-align:center;font-size:12px;opacity:.6;margin-bottom:14px;}
+.btn{font-family:'Jua';font-size:15px;padding:13px;border-radius:14px;border:none;cursor:pointer;transition:transform .1s;width:100%;}
+.btn:active{transform:scale(.96);}
+.btn.main{background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
+.btn.sub2{background:rgba(255,255,255,.1);color:var(--cream);}
+@keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes leave{to{transform:translateY(-20px);opacity:0;}}
+@keyframes blink{50%{opacity:.5;}}
+
+/* ══ 홈 화면 ══ */
+#home{z-index:80;}
+#home .logo{text-align:center;margin-bottom:26px;}
+#home .logo .fishArt{font-size:56px;animation:bob 2.4s ease-in-out infinite;display:inline-block;}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg);}}
+#home h1{font-family:'Jua';font-size:34px;color:var(--gold);letter-spacing:2px;text-shadow:0 3px 0 rgba(0,0,0,.4);}
+#home h1 small{display:block;font-size:11px;letter-spacing:6px;color:var(--cream);opacity:.6;margin-top:4px;}
+#home .menu{display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;}
+#home .menu .btn{font-size:17px;padding:15px;}
+#home .menu .row{display:flex;gap:10px;}
+#home .menu .row .btn{font-size:14px;padding:12px;}
+
+/* ══ 세이브 슬롯 ══ */
+.slotList{display:flex;flex-direction:column;gap:8px;overflow-y:auto;}
+.slotItem{
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);border-radius:12px;
+  padding:12px;cursor:pointer;transition:transform .1s;position:relative;text-align:left;
+}
+.slotItem:active{transform:scale(.97);}
+.slotItem .t{font-family:'Jua';font-size:14px;color:var(--gold);}
+.slotItem .d{font-size:11px;opacity:.65;margin-top:3px;line-height:1.5;}
+.slotItem.empty{border-style:dashed;text-align:center;color:rgba(255,255,255,.4);font-size:13px;padding:16px;}
+.slotItem .recent{position:absolute;top:-7px;right:10px;background:var(--tarp);color:#fff;font-family:'Jua';font-size:9px;padding:2px 8px;border-radius:8px;}
+.card .backrow{display:flex;gap:8px;margin-top:12px;}
+
+/* ══ 랭킹 ══ */
+.rankList{overflow-y:auto;display:flex;flex-direction:column;gap:6px;}
+.rankItem{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border-radius:10px;padding:9px 12px;}
+.rankItem .no{font-family:'Jua';font-size:15px;color:var(--gold);width:26px;text-align:center;flex-shrink:0;}
+.rankItem .info{flex:1;min-width:0;}
+.rankItem .nick{font-family:'Jua';font-size:13px;}
+.rankItem .det{font-size:10px;opacity:.6;margin-top:2px;}
+.rankItem .sc{font-family:'Jua';font-size:14px;color:#FFD98A;white-space:nowrap;}
+.rankEmpty{text-align:center;font-size:12px;opacity:.5;padding:24px 0;}
+
+/* ══ 설정 ══ */
+.setRow{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:left;}
+.setRow label{font-family:'Jua';font-size:13px;color:var(--gold);}
+.setRow input{
+  font-family:'Gowun Dodum';font-size:14px;padding:10px 12px;border-radius:10px;
+  border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:var(--cream);outline:none;
+}
+
+/* ══ 게임 헤더 ══ */
+#game{display:none;flex-direction:column;flex:1;min-height:0;}
+#game.on{display:flex;}
 header{
   position:relative;z-index:5;
   background:repeating-linear-gradient(90deg,var(--tarp) 0 44px,var(--cream) 44px 88px);
@@ -45,67 +104,69 @@ header .inner{
   background:rgba(36,29,22,.88);border-radius:12px;
   padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;
 }
-h1{font-family:'Jua';font-size:19px;color:var(--gold);letter-spacing:1px;line-height:1;}
-h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacing:3px;margin-top:2px;}
-.stats{display:flex;gap:10px;align-items:center;font-family:'Jua';}
-.money{font-size:17px;color:#FFD98A;}
-.rep{font-size:11px;text-align:right;}
-.rep .bar{width:60px;height:5px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:3px;overflow:hidden;}
-.rep .bar i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .3s;}
+.fame{min-width:0;}
+.fame .fname{font-family:'Jua';font-size:13px;color:var(--gold);white-space:nowrap;}
+.fame .fnum{font-size:10px;opacity:.7;font-family:'Jua';margin-top:1px;}
+.fame .bar{width:86px;height:5px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:3px;overflow:hidden;}
+.fame .bar i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .3s;}
+.money{font-family:'Jua';font-size:17px;color:#FFD98A;white-space:nowrap;}
 
-/* ── 명성 효과 스트립 ── */
+/* ══ 보너스 스트립 ══ */
 #repstrip{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  padding:5px 16px 0;font-family:'Jua';font-size:11px;color:rgba(255,246,229,.55);
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  padding:5px 12px 0;font-family:'Jua';font-size:10.5px;color:rgba(255,246,229,.55);
   z-index:4;position:relative;
 }
 #repstrip b{color:var(--gold);font-weight:normal;}
+#rankTimer{display:none;color:#FF9E9E;font-size:12px;}
+#rankTimer.hurry{animation:blink .6s infinite;}
 
-/* ── 손님 줄 ── */
-#customers{display:flex;gap:8px;padding:8px 14px 4px;min-height:100px;z-index:4;position:relative;}
+/* ══ 손님 줄 ══ */
+#customers{display:flex;gap:8px;padding:8px 14px 4px;min-height:104px;z-index:4;position:relative;}
 .slot{flex:1;max-width:33.3%;position:relative;}
 .slot .empty{
-  height:100%;min-height:92px;border:1.5px dashed rgba(255,255,255,.1);border-radius:14px;
+  height:100%;min-height:96px;border:1.5px dashed rgba(255,255,255,.1);border-radius:14px;
   display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.25);
 }
 .customer{
   background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:14px;
-  padding:8px 6px 6px;text-align:center;position:relative;cursor:pointer;
-  animation:pop .3s ease;height:100%;min-height:92px;
+  padding:8px 5px 6px;text-align:center;position:relative;cursor:pointer;
+  animation:pop .3s ease;height:100%;min-height:96px;
+  display:flex;flex-direction:column;justify-content:space-between;
 }
 .customer.event{border-color:var(--gold);box-shadow:0 0 12px rgba(233,180,91,.35);}
 .customer.leaving{animation:leave .4s ease forwards;}
-@keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
-@keyframes leave{to{transform:translateY(-20px);opacity:0;}}
 .customer .tag{
   position:absolute;top:-8px;left:50%;transform:translateX(-50%);
   font-family:'Jua';font-size:9px;padding:2px 8px;border-radius:8px;white-space:nowrap;
-  background:var(--gold);color:var(--ink);box-shadow:0 2px 4px rgba(0,0,0,.4);
+  background:var(--gold);color:var(--ink);box-shadow:0 2px 4px rgba(0,0,0,.4);z-index:2;
 }
-.customer .face{font-size:25px;line-height:1;}
-.customer .order{display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;margin:4px 0;font-family:'Jua';}
-.customer .order .dot{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(0,0,0,.25);flex-shrink:0;}
+.customer .face{font-size:22px;line-height:1;}
+.customer .orders{display:flex;flex-direction:column;gap:2px;margin:3px 0;}
+.customer .orow{display:flex;align-items:center;justify-content:center;gap:4px;font-size:10.5px;font-family:'Jua';line-height:1.2;}
+.customer .orow .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid rgba(0,0,0,.25);flex-shrink:0;}
+.customer .orow.doneRow{opacity:.35;text-decoration:line-through;}
 .customer .patience{height:5px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}
 .customer .patience i{display:block;height:100%;background:var(--good);border-radius:3px;}
 .customer .qty{position:absolute;top:-6px;right:-4px;background:var(--tarp);color:#fff;
   font-family:'Jua';font-size:11px;min-width:20px;height:20px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(0,0,0,.4);z-index:2;}
 
-/* ── 진열대 ── */
+/* ══ 진열대 ══ */
 #tray{
   margin:6px 14px;background:rgba(201,168,124,.14);
   border:1.5px solid rgba(233,180,91,.3);border-radius:12px;
-  padding:6px 10px;display:flex;gap:10px;align-items:center;min-height:44px;
+  padding:6px 10px;display:flex;gap:12px;align-items:center;min-height:44px;
   z-index:4;position:relative;overflow-x:auto;scrollbar-width:none;
 }
 #tray::-webkit-scrollbar{display:none;}
 #tray .label{font-family:'Jua';font-size:11px;color:var(--gold);white-space:nowrap;}
-#tray .cap{font-family:'Jua';font-size:10px;opacity:.5;white-space:nowrap;margin-left:auto;}
-.tray-item{display:flex;align-items:center;gap:3px;font-family:'Jua';font-size:13px;white-space:nowrap;}
-.tray-item svg{width:26px;height:16px;}
-#tray .none{font-size:11px;color:rgba(255,255,255,.35);white-space:nowrap;}
+.tray-item{display:flex;align-items:center;gap:3px;font-family:'Jua';font-size:12px;white-space:nowrap;}
+.tray-item svg{width:24px;height:15px;}
+.tray-item .c{opacity:.85;}
+.tray-item .mx{font-size:9px;opacity:.45;}
 
-/* ── 무쇠 틀 ── */
+/* ══ 무쇠 틀 ══ */
 #griddle{
   flex:1;margin:4px 14px 6px;z-index:4;position:relative;
   background:
@@ -119,73 +180,53 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 }
 #griddle.cols3{grid-template-columns:repeat(3,1fr);}
 .mold{
-  position:relative;height:70px;border-radius:35px;
+  position:relative;height:68px;border-radius:34px;
   background:radial-gradient(ellipse at 50% 40%, #26232B, #1B1920);
   box-shadow:inset 0 3px 8px rgba(0,0,0,.8), inset 0 -1px 2px rgba(255,255,255,.06);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:transform .1s;
 }
 .mold:active{transform:scale(.96);}
-.mold svg{width:80%;height:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));}
+.mold svg{width:78%;height:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));}
 .mold.cooking svg{animation:sizzle 1s ease-in-out infinite;}
 @keyframes sizzle{50%{transform:translateY(-1px);}}
 .mold.done svg{filter:drop-shadow(0 0 8px rgba(233,180,91,.7));}
 .mold .prog{position:absolute;bottom:5px;left:14%;right:14%;height:4px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;}
 .mold .prog i{display:block;height:100%;border-radius:2px;background:var(--coal);}
 .mold.done .prog i{background:var(--good);}
-.mold .badge{position:absolute;top:1px;right:8px;font-family:'Jua';font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(0,0,0,.55);}
+.mold .badge{position:absolute;top:0;right:8px;font-family:'Jua';font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(0,0,0,.55);}
 .mold.done .badge{background:var(--good);color:#12240F;animation:blink .6s infinite;}
 .mold.burnt .badge{background:var(--bad);color:#fff;}
-@keyframes blink{50%{opacity:.5;}}
 .mold .hint{font-size:11px;color:rgba(255,255,255,.28);font-family:'Jua';}
 .steam{position:absolute;font-size:11px;opacity:0;animation:steam 1.6s ease-out infinite;pointer-events:none;}
 @keyframes steam{0%{opacity:0;transform:translateY(4px);}30%{opacity:.7;}100%{opacity:0;transform:translateY(-16px);}}
 
-/* ── 속 선택 ── */
+/* ══ 속 선택 ══ */
 #fillings{display:flex;gap:6px;padding:2px 14px 8px;overflow-x:auto;z-index:4;position:relative;scrollbar-width:none;}
 #fillings::-webkit-scrollbar{display:none;}
 .chip{
   flex-shrink:0;display:flex;align-items:center;gap:5px;
-  padding:7px 12px;border-radius:20px;font-family:'Jua';font-size:13px;
+  padding:8px 14px;border-radius:20px;font-family:'Jua';font-size:13px;
   background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
   color:var(--cream);cursor:pointer;transition:all .15s;
 }
 .chip .dot{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(0,0,0,.25);}
 .chip.sel{background:var(--gold);color:var(--ink);border-color:var(--gold);transform:scale(1.05);}
-.chip .price{font-size:10px;opacity:.65;}
 
-/* ── 하단 바 ── */
+/* ══ 하단 바 ══ */
 #bottombar{display:flex;gap:8px;padding:0 14px 14px;z-index:4;position:relative;}
 #bottombar button{
-  flex:1;font-family:'Jua';font-size:15px;padding:12px;border-radius:14px;border:none;
+  font-family:'Jua';font-size:15px;padding:12px;border-radius:14px;border:none;
   cursor:pointer;transition:transform .1s;
 }
 #bottombar button:active{transform:scale(.96);}
-#shopBtn{background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
-#pauseBtn{flex:0 0 auto;background:rgba(255,255,255,.1);color:var(--cream);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 3px 0 rgba(0,0,0,.3);padding:12px 16px;}
-/* ── 일시정지 오버레이 ── */
-#pauseOv{
-  position:absolute;inset:0;z-index:55;background:rgba(10,13,26,.88);
-  display:none;align-items:center;justify-content:center;padding:24px;
-}
-#pauseOv.on{display:flex;}
-#pauseOv .card{
-  background:#241D16;border:2px solid var(--gold);border-radius:20px;
-  padding:28px 24px;max-width:300px;width:100%;text-align:center;animation:pop .3s ease;
-}
-#pauseOv h2{font-family:'Jua';color:var(--gold);font-size:24px;margin-bottom:6px;}
-#pauseOv .sub{font-size:12px;opacity:.6;margin-bottom:18px;}
-#pauseOv button{
-  width:100%;font-family:'Jua';font-size:17px;padding:14px;border-radius:14px;border:none;
-  background:var(--tarp);color:#fff;cursor:pointer;box-shadow:0 3px 0 var(--tarp-dark);
-  transition:transform .1s;
-}
-#pauseOv button:active{transform:scale(.96);}
+#shopBtn{flex:1;background:var(--tarp);color:#fff;box-shadow:0 3px 0 var(--tarp-dark);}
 #shopBtn .n{background:#fff;color:var(--tarp);border-radius:8px;padding:0 6px;font-size:11px;margin-left:4px;}
+#pauseBtn{flex:0 0 auto;background:rgba(255,255,255,.1);color:var(--cream);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 3px 0 rgba(0,0,0,.3);padding:12px 16px;}
 
-/* ── 상점 시트 ── */
+/* ══ 상점 시트 ══ */
 #shop{
-  position:absolute;left:0;right:0;bottom:0;z-index:40;
+  position:absolute;left:0;right:0;bottom:0;z-index:60;
   background:#241D16;border-radius:20px 20px 0 0;
   max-height:76dvh;display:flex;flex-direction:column;
   transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.9,.3,1);
@@ -200,7 +241,7 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 #shop .tabs button.on{background:var(--gold);color:var(--ink);}
 #shop .list{overflow-y:auto;padding:0 16px 20px;display:flex;flex-direction:column;gap:8px;}
 .shop-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;}
-.shop-item .ico{font-size:22px;width:32px;text-align:center;}
+.shop-item .ico{font-size:22px;width:32px;text-align:center;flex-shrink:0;}
 .shop-item .ico .dot{width:18px;height:18px;border-radius:50%;display:inline-block;border:2px solid rgba(0,0,0,.25);}
 .shop-item .info{flex:1;min-width:0;}
 .shop-item .name{font-family:'Jua';font-size:14px;}
@@ -209,63 +250,168 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 .shop-item .buy{font-family:'Jua';font-size:13px;padding:8px 12px;border-radius:10px;border:none;background:var(--gold);color:var(--ink);cursor:pointer;white-space:nowrap;}
 .shop-item .buy:disabled{background:rgba(255,255,255,.12);color:rgba(255,255,255,.35);}
 .shop-item.owned .buy{background:rgba(126,203,126,.2);color:var(--good);}
-#dim{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:35;opacity:0;pointer-events:none;transition:opacity .3s;}
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:55;opacity:0;pointer-events:none;transition:opacity .3s;}
 #dim.on{opacity:1;pointer-events:auto;}
 
-/* ── 토스트/플로팅/튜토리얼 ── */
+/* ══ 토스트/플로팅 ══ */
 #toast{
-  position:absolute;top:13%;left:50%;transform:translateX(-50%);z-index:50;
+  position:absolute;top:13%;left:50%;transform:translateX(-50%);z-index:75;
   background:rgba(36,29,22,.92);color:var(--gold);font-family:'Jua';font-size:13px;
   padding:10px 18px;border-radius:20px;border:1.5px solid var(--gold);
   opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;max-width:92%;
   overflow:hidden;text-overflow:ellipsis;
 }
 #toast.on{opacity:1;}
-.float{position:absolute;z-index:45;font-family:'Jua';font-size:14px;pointer-events:none;animation:floatUp .9s ease-out forwards;text-shadow:0 2px 4px rgba(0,0,0,.6);}
+.float{position:absolute;z-index:65;font-family:'Jua';font-size:14px;pointer-events:none;animation:floatUp .9s ease-out forwards;text-shadow:0 2px 4px rgba(0,0,0,.6);}
 @keyframes floatUp{from{opacity:1;}to{opacity:0;transform:translateY(-44px);}}
-#tuto{position:absolute;inset:0;z-index:60;background:rgba(10,13,26,.9);display:flex;align-items:center;justify-content:center;padding:24px;}
-#tuto .card{background:#241D16;border:2px solid var(--gold);border-radius:20px;padding:24px 20px;max-width:340px;text-align:center;}
-#tuto h2{font-family:'Jua';color:var(--gold);font-size:22px;margin-bottom:12px;}
-#tuto p{font-size:13px;line-height:1.8;opacity:.9;text-align:left;}
-#tuto p b{color:var(--gold);}
-#tuto button{margin-top:16px;font-family:'Jua';font-size:16px;padding:12px 32px;border-radius:14px;border:none;background:var(--tarp);color:#fff;cursor:pointer;box-shadow:0 3px 0 var(--tarp-dark);}
+
+/* ══ 결과 테이블 ══ */
+.resTable{width:100%;font-size:13px;border-collapse:collapse;margin-bottom:4px;}
+.resTable td{padding:6px 2px;border-bottom:1px dashed rgba(255,255,255,.12);}
+.resTable td:last-child{text-align:right;font-family:'Jua';}
+.resTable tr.total td{border-bottom:none;padding-top:10px;font-family:'Jua';font-size:17px;color:#FFD98A;}
 </style>
 </head>
 <body>
 <div id="app">
-  <header>
-    <div class="inner">
-      <h1>붕어빵 타이쿤<small>BUNGEO-PPANG</small></h1>
-      <div class="stats">
-        <div class="rep">
-          <span id="lvName">노점 새내기</span>
-          <div class="bar"><i id="repBar"></i></div>
+
+  <!-- ══════════ 홈 화면 ══════════ -->
+  <div id="home" class="ov on">
+    <div class="logo">
+      <span class="fishArt">🐟</span>
+      <h1>붕어빵 타이쿤<small>BUNGEO-PPANG TYCOON</small></h1>
+    </div>
+    <div class="menu">
+      <button class="btn main" id="btnInf">🔥 무한 모드</button>
+      <button class="btn main" id="btnRank" style="background:#3E5C9A;box-shadow:0 3px 0 #2C4374;">⏱ 랭크 모드</button>
+      <div class="row">
+        <button class="btn sub2" id="btnRanking">🏆 랭킹</button>
+        <button class="btn sub2" id="btnSet">⚙️ 설정</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ 세이브 슬롯 ══════════ -->
+  <div id="slotsOv" class="ov">
+    <div class="card">
+      <h2 id="slotsTitle">🔥 무한 모드</h2>
+      <div class="sub" id="slotsSub">이어할 세이브를 선택하세요</div>
+      <div class="slotList" id="slotList"></div>
+      <div class="backrow">
+        <button class="btn sub2" id="slotsBack">← 뒤로</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ 랭크 모드 안내 ══════════ -->
+  <div id="rankConfirm" class="ov">
+    <div class="card">
+      <h2>⏱ 랭크 모드</h2>
+      <div class="sub">30분 동안 최고의 장사를 증명하세요!</div>
+      <div style="font-size:12px;line-height:1.9;opacity:.85;margin-bottom:14px;">
+        · 제한 시간 <b style="color:var(--gold)">30분</b>, 종료 시 자동으로 점수 산정<br>
+        · 점수 = 총 판매액 + 명성 × 100<br>
+        · 세이브 불가, 처음부터 시작<br>
+        · 결과는 🏆 랭킹에 저장돼요
+      </div>
+      <button class="btn main" id="rankStart">도전 시작!</button>
+      <div class="backrow"><button class="btn sub2" id="rankBack">← 뒤로</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ 랭킹 ══════════ -->
+  <div id="rankingOv" class="ov">
+    <div class="card">
+      <h2>🏆 랭킹</h2>
+      <div class="sub">랭크 모드 기록 (상위 20개)</div>
+      <div class="rankList" id="rankList"></div>
+      <div class="backrow"><button class="btn sub2" id="rankingBack">← 뒤로</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ 설정 ══════════ -->
+  <div id="setOv" class="ov">
+    <div class="card">
+      <h2>⚙️ 설정</h2>
+      <div class="sub"></div>
+      <div class="setRow">
+        <label>사장님 닉네임 (랭킹에 표시)</label>
+        <input id="nickInput" maxlength="10" placeholder="붕어빵사장님">
+      </div>
+      <button class="btn sub2" id="wipeBtn" style="color:var(--bad);">🗑️ 모든 데이터 초기화</button>
+      <div class="backrow"><button class="btn main" id="setBack">저장하고 뒤로</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ 랭크 결과 ══════════ -->
+  <div id="resultOv" class="ov">
+    <div class="card">
+      <h2>⏱ 영업 종료!</h2>
+      <div class="sub">30분간의 기록입니다</div>
+      <table class="resTable" id="resTable"></table>
+      <button class="btn main" id="resRanking" style="margin-top:12px;">🏆 랭킹 보기</button>
+      <div class="backrow"><button class="btn sub2" id="resHome">🏠 홈으로</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ 일시정지 ══════════ -->
+  <div id="pauseOv" class="ov">
+    <div class="card" style="text-align:center;">
+      <h2>⏸ 일시정지</h2>
+      <div class="sub">화덕이 잠시 쉬고 있어요 🐟</div>
+      <button class="btn main" id="resumeBtn">▶ 계속 장사하기</button>
+      <div class="backrow">
+        <button class="btn sub2" id="saveBtn">💾 저장</button>
+        <button class="btn sub2" id="homeBtn">🏠 홈으로</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ 튜토리얼 ══════════ -->
+  <div id="tuto" class="ov">
+    <div class="card" style="text-align:center;">
+      <h2>🐟 장사 안내</h2>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;text-align:left;">
+        <b style="color:var(--gold)">① 굽기</b> — 속 재료 선택 후 빈 틀 터치. 완성되면 눌러서 진열대로! 방치하면 타요.<br>
+        <b style="color:var(--gold)">② 자동 판매</b> — 진열대에 있으면 손님이 알아서 사 가요. 먼저 온 손님부터! 급하면 손님을 직접 터치.<br>
+        <b style="color:var(--gold)">③ 명성</b> — 붕어빵 1개 팔 때마다 명성 +1. 명성 레벨이 오르면 손님 유입 +5%, 재료비 −2%, 화력 +1%씩!
+      </p>
+      <button class="btn main" id="tutoBtn" style="margin-top:14px;">장사 시작!</button>
+    </div>
+  </div>
+
+  <!-- ══════════ 게임 화면 ══════════ -->
+  <div id="game">
+    <header>
+      <div class="inner">
+        <div class="fame">
+          <div class="fname" id="fameName">갓 차린 노점</div>
+          <div class="fnum">⭐ <span id="fameNum">0</span> <span id="fameNext"></span></div>
+          <div class="bar"><i id="fameBar"></i></div>
         </div>
         <div class="money"><span id="money">3,000</span>원</div>
       </div>
+    </header>
+
+    <div id="repstrip">
+      <span id="rankTimer">⏱ 30:00</span>
+      <span>👥 유입 <b id="visitBonus">+0%</b></span>
+      <span>🧾 재료비 <b id="costBonus">-0%</b></span>
+      <span>🔥 <b id="cookLabel">10초</b></span>
     </div>
-  </header>
 
-  <div id="repstrip">
-    <span>⭐ 명성 보너스 · 손님 유입 <b id="repBonus">+0%</b></span>
-    <span>🔥 굽는 시간 <b id="cookLabel">20초</b></span>
-  </div>
+    <div id="customers"></div>
 
-  <div id="customers"></div>
+    <div id="tray"><span class="label">진열대</span><span id="trayItems" style="display:flex;gap:12px;"></span></div>
 
-  <div id="tray">
-    <span class="label">진열대</span>
-    <span id="trayItems" style="display:flex;gap:10px;"></span>
-    <span class="cap" id="trayCap"></span>
-  </div>
+    <div id="griddle"></div>
 
-  <div id="griddle"></div>
+    <div id="fillings"></div>
 
-  <div id="fillings"></div>
-
-  <div id="bottombar">
-    <button id="pauseBtn">⏸ 일시정지</button>
-    <button id="shopBtn">🏪 상점 <span class="n" id="shopNoti" style="display:none">!</span></button>
+    <div id="bottombar">
+      <button id="pauseBtn">⏸</button>
+      <button id="shopBtn">🏪 상점 <span class="n" id="shopNoti" style="display:none">!</span></button>
+    </div>
   </div>
 
   <div id="dim"></div>
@@ -274,33 +420,12 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
     <div class="tabs">
       <button data-tab="menu" class="on">신메뉴</button>
       <button data-tab="up">강화</button>
-      <button data-tab="promo">홍보</button>
+      <button data-tab="promo">홍보·환경</button>
     </div>
     <div class="list" id="shopList"></div>
   </div>
 
   <div id="toast"></div>
-
-  <div id="pauseOv">
-    <div class="card">
-      <h2>⏸ 일시정지</h2>
-      <div class="sub">화덕이 잠시 쉬고 있어요. 손님도 얌전히 기다립니다 🐟</div>
-      <button id="resumeBtn">▶ 계속 장사하기</button>
-    </div>
-  </div>
-
-  <div id="tuto">
-    <div class="card">
-      <h2>🐟 붕어빵 타이쿤</h2>
-      <p>
-        <b>① 굽기</b> — 속 재료 선택 후 빈 틀 터치. 다 익으면 눌러서 진열대로! 방치하면 타요.<br>
-        <b>② 자동 판매</b> — 진열대에 손님이 원하는 붕어빵이 있으면 알아서 사 가요. 급하면 손님을 직접 터치해도 OK.<br>
-        <b>③ 성장</b> — 상점에서 틀·화력·진열대를 강화하고 홍보로 손님을 늘리세요. 알바생을 고용하면 진열까지 자동!<br>
-        <b>④ 명성</b> — 많이 팔수록 명성이 올라 손님이 더 자주 찾아옵니다.
-      </p>
-      <button id="tutoBtn">장사 시작!</button>
-    </div>
-  </div>
 </div>
 
 <svg width="0" height="0" style="position:absolute">
@@ -317,107 +442,154 @@ h1 small{display:block;font-size:9px;color:var(--cream);opacity:.7;letter-spacin
 
 <script>
 /* ══════════ 데이터 ══════════ */
+/* 재료비 비율: 팥 20%에서 등급마다 0.5%p씩 감소 (초코 19% = 380원 기준) */
 const FILLINGS = [
-  {id:'pat',   name:'팥',       color:'#8E3B3B', price:1000, cost:150, unlock:0,      desc:'국룰. 겨울의 클래식'},
-  {id:'cream', name:'슈크림',   color:'#F6D77A', price:1500, cost:250, unlock:6000,   desc:'부드러운 커스터드'},
-  {id:'choco', name:'초코',     color:'#5B3A29', price:2000, cost:350, unlock:15000,  desc:'아이들의 최애'},
-  {id:'goguma',name:'고구마',   color:'#B569C4', price:2500, cost:450, unlock:30000,  desc:'달콤한 밤고구마 무스'},
-  {id:'pizza', name:'피자',     color:'#E0663B', price:3000, cost:550, unlock:55000,  desc:'치즈 쭉— 늘어나는'},
-  {id:'cheese',name:'크림치즈', color:'#FBF3DC', price:3500, cost:650, unlock:90000,  desc:'꾸덕한 크림치즈'},
-  {id:'nutella',name:'누텔라',  color:'#3E2A1E', price:4200, cost:800, unlock:140000, desc:'헤이즐넛의 유혹'},
-  {id:'mint',  name:'민트초코', color:'#5CD6C0', price:5000, cost:900, unlock:200000, desc:'호불호 끝판왕'},
+  {id:'pat',    name:'팥',       color:'#8E3B3B', price:1000, cost:200, unlock:0,      desc:'국룰. 겨울의 클래식'},
+  {id:'cream',  name:'슈크림',   color:'#F6D77A', price:1500, cost:293, unlock:6000,   desc:'부드러운 커스터드'},
+  {id:'choco',  name:'초코',     color:'#5B3A29', price:2000, cost:380, unlock:15000,  desc:'아이들의 최애'},
+  {id:'goguma', name:'고구마',   color:'#B569C4', price:2500, cost:463, unlock:30000,  desc:'달콤한 밤고구마 무스'},
+  {id:'pizza',  name:'피자',     color:'#E0663B', price:3000, cost:540, unlock:55000,  desc:'치즈 쭉— 늘어나는'},
+  {id:'cheese', name:'크림치즈', color:'#FBF3DC', price:3500, cost:613, unlock:90000,  desc:'꾸덕한 크림치즈'},
+  {id:'nutella',name:'누텔라',   color:'#3E2A1E', price:4200, cost:714, unlock:140000, desc:'헤이즐넛의 유혹'},
+  {id:'mint',   name:'민트초코', color:'#5CD6C0', price:5000, cost:825, unlock:200000, desc:'호불호 끝판왕'},
 ];
-/* 홍보(1회 구매) */
-const PROMO = [
-  {id:'tent',  name:'비닐천막',   ico:'⛺', price:15000,  desc:'바람을 막아 손님 대기 시간 +10%'},
-  {id:'stove', name:'연탄난로',   ico:'🪵', price:35000,  desc:'따뜻해서 손님 대기 시간 +20%'},
-  {id:'sns',   name:'SNS 홍보',   ico:'📱', price:40000,  desc:'손님이 더 자주 방문함'},
-  {id:'neon',  name:'네온 간판',  ico:'💡', price:90000,  desc:'손님이 더 더 자주 방문함'},
-  {id:'balloon',name:'붕어빵 풍선',ico:'🎈', price:180000, desc:'손님이 더 더 더 자주 방문함'},
-  {id:'alba',  name:'알바생 고용', ico:'🧤', price:250000, desc:'다 익은 붕어빵을 자동으로 진열함'},
-];
-const LEVELS = [
-  {name:'노점 새내기',     sales:0},
-  {name:'골목 명물',       sales:15},
-  {name:'동네 맛집',       sales:40},
-  {name:'붕어빵 장인',     sales:90},
-  {name:'전국 3대 붕어빵', sales:180},
-  {name:'붕어빵 명가',     sales:320},
-  {name:'붕어빵 재벌',     sales:550},
-  {name:'붕어빵의 神',     sales:900},
-];
-/* 이벤트 손님 8종 (weight: 등장 가중치) */
+/* 업그레이드 트랙 (대기시간 2종 + 홍보 1종) */
+const TRACKS = {
+  tent:{
+    icon:'⛺', title:'비닐천막', effect:'손님 대기 시간',
+    steps:['비닐천막 없음','비닐천막','느슨한 비닐천막','강화된 비닐천막','튼튼한 비닐천막','눈보라 면역 비닐천막','방사능 면역 비닐천막'],
+    baseCost:20000,
+  },
+  stove:{
+    icon:'🪵', title:'난로', effect:'손님 대기 시간',
+    steps:['연탄난로 없음','연탄난로','석유난로','전기난로','온풍기','태양난로','원자로'],
+    baseCost:20000,
+  },
+  promo:{
+    icon:'📢', title:'홍보', effect:'손님 방문 횟수',
+    steps:['홍보 없음','SNS 게시글','숏폼 홍보','브이로그 촬영','인플루언서 협찬','연예인 협찬','대통령 방문'],
+    baseCost:30000,
+  },
+};
+/* 명성: 10레벨, 레벨업 필요치 = 현재레벨 × 50 */
+const FAME_NAMES=['갓 차린 노점','적응한 노점','익숙한 노점','숙련된 노점','인지도 있는 노점','인지도 높은 노점','붕어빵 마스터','붕어빵 챌린저','붕어빵의 달인','붕어빵의 신'];
+const FAME_CUM=(()=>{const a=[0];for(let l=1;l<10;l++)a.push(a[l-1]+l*50);return a;})(); /* [0,50,150,300,500,750,1050,1400,1800,2250] */
+/* 이벤트 손님 8종 */
 const EVENTS = {
-  vip:     {w:3, tag:'💎 VIP',        face:'🤵', payMul:2,   patMul:0.65, qtyR:[1,2], msg:'VIP 손님! 값을 2배로 쳐준대요'},
-  group:   {w:3, tag:'🚌 단체손님',    face:'🚌', payMul:1,   patMul:1.6,  qtyR:[5,8], msg:'단체 주문이 들어왔어요!'},
-  streamer:{w:2, tag:'📹 먹방 유튜버', face:'🤳', payMul:1.2, patMul:1,    qtyR:[2,3], msg:'유튜버 등장! 완판하면 명성 대박'},
-  critic:  {w:2, tag:'🧐 미식평론가',  face:'🧐', payMul:1.5, patMul:0.9,  qtyR:[1,1], msg:'미식평론가! 제일 비싼 붕어빵만 먹는대요', expensive:true},
-  hurry:   {w:3, tag:'⏱️ 바쁜 직장인', face:'💼', payMul:1.8, patMul:0.4,  qtyR:[1,1], msg:'"빨리요 빨리! 회의 5분 전!"'},
-  student: {w:2, tag:'🎓 수험생',      face:'🎓', payMul:1,   patMul:1.2,  qtyR:[2,2], msg:'수험생 등장! 붕어빵은 합격 기원 간식'},
-  santa:   {w:1, tag:'🎅 산타',        face:'🎅', payMul:1,   patMul:1.3,  qtyR:[3,3], msg:'산타?! 착한 사장에겐 선물이 있다는데…'},
-  cat:     {w:2, tag:'🐈 길고양이',    face:'🐈', payMul:0,   patMul:1.5,  qtyR:[1,1], msg:'길고양이가 애처롭게 쳐다봅니다…'},
+  vip:     {w:3, tag:'💎 VIP',        face:'🤵', payMul:2,   patMul:0.65, msg:'VIP 손님! 값을 2배로 쳐준대요'},
+  group:   {w:3, tag:'🚌 단체손님',    face:'🚌', payMul:1,   patMul:1.6,  msg:'단체 주문이 들어왔어요!'},
+  streamer:{w:2, tag:'📹 먹방 유튜버', face:'🤳', payMul:1.2, patMul:1,    msg:'유튜버 등장! 완판하면 보너스가?'},
+  critic:  {w:2, tag:'🧐 미식평론가',  face:'🧐', payMul:1.5, patMul:0.9,  msg:'미식평론가! 제일 비싼 붕어빵만 먹는대요'},
+  hurry:   {w:3, tag:'⏱️ 바쁜 직장인', face:'💼', payMul:1.8, patMul:0.4,  msg:'"빨리요 빨리! 회의 5분 전!"'},
+  student: {w:2, tag:'🎓 수험생',      face:'🎓', payMul:1,   patMul:1.2,  msg:'수험생 등장! 붕어빵은 합격 기원 간식'},
+  santa:   {w:1, tag:'🎅 산타',        face:'🎅', payMul:1,   patMul:1.3,  msg:'산타?! 착한 사장에겐 선물이 있다는데…'},
+  cat:     {w:2, tag:'🐈 길고양이',    face:'🐈', payMul:0,   patMul:1.5,  msg:'길고양이가 애처롭게 쳐다봅니다…'},
+};
+const FACES=['👵','👴','🧑','👧','👦','👩','👨','🧕','👮','🧑‍🎄','🧑‍💼','👩‍🦰'];
+
+/* ══════════ 상수 ══════════ */
+const BASE_COOK=10, DONE_WINDOW=14;
+const MOLD_MAX=9, HEAT_MAX=30, TRAY_CAP_MAX=40, TRACK_MAX=6;
+const RANK_LEN=30*60;
+
+/* ══════════ 저장소 (localStorage + 메모리 폴백) ══════════ */
+const MEM={};
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);if(v!==null)return JSON.parse(v);}catch(e){}return k in MEM?MEM[k]:d;},
+  set(k,v){MEM[k]=v;try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},
+  del(k){delete MEM[k];try{localStorage.removeItem(k);}catch(e){}},
 };
 
-/* ══════════ 상수/상태 ══════════ */
-const BASE_COOK=10, DONE_WINDOW=14;
-const MOLD_MAX=9, HEAT_MAX=20, TRAY_CAP_MAX=40;
-const S = {
-  money:3000, sales:0,
-  paused:true,         /* 접속 시 일시정지 상태로 시작 */
-  unlocked:['pat'], promo:{},
-  heatLv:1,            /* 화력 레벨 1~20 */
-  trayMax:10,          /* 진열대 10~40 */
-  sel:'pat',
-  molds:[], moldCount:2,
-  tray:{},
-  customers:[null,null,null],
-  spawnT:2.0,
-  lastLv:0,
-};
+/* ══════════ 게임 상태 ══════════ */
+let S=null;           /* 현재 게임 상태 */
+let mode='infinite';  /* 'infinite' | 'rank' */
+let curSlot=null;     /* 무한 모드에서 불러온/저장한 슬롯 index */
+let arrivalSeq=0;
+function freshState(){
+  return {
+    money:3000, fame:0, totalRev:0, soldCount:0,
+    unlocked:['pat'],
+    tracks:{tent:0,stove:0,promo:0},
+    heatLv:1, trayCap:10, moldCount:2,
+    sel:'pat',
+    molds:Array.from({length:2},()=>({state:'empty'})),
+    tray:{},
+    customers:[null,null,null],
+    spawnT:2.0, sellT:0,
+    paused:true,
+    rankTime:RANK_LEN,
+    lastFameLv:1,
+  };
+}
+
 const $=q=>document.querySelector(q);
 const fmt=n=>n.toLocaleString('ko-KR');
 const F=id=>FILLINGS.find(f=>f.id===id);
-const trayTotal=()=>Object.values(S.tray).reduce((a,b)=>a+b,0);
+const round1=x=>Math.round(x*10)/10;
 
-/* 공식들 */
-const cookTime=()=>BASE_COOK*(1-0.03*S.heatLv);                 /* Lv1=9.7초 … Lv20=4초 */
-const moldUpCost=()=>10000*(S.moldCount+1);                      /* 2→3: 3만 … 8→9: 9만 */
+/* ══════════ 공식 ══════════ */
+function fameLevel(){
+  let lv=1;
+  for(let l=10;l>=1;l--){if(S.fame>=FAME_CUM[l-1]){lv=l;break;}}
+  return lv;
+}
+function fameProg(){
+  const lv=fameLevel();
+  if(lv>=10)return 1;
+  return (S.fame-FAME_CUM[lv-1])/(FAME_CUM[lv]-FAME_CUM[lv-1]);
+}
+const visitBonus=()=>S.tracks.promo*0.05+(fameLevel()-1)*0.05;
+const waitMul=()=>1+(S.tracks.tent+S.tracks.stove)*0.05;
+const costDisc=()=>(fameLevel()-1)*0.02;
+const effCost=f=>Math.round(f.cost*(1-costDisc()));
+const fameHeat=()=>{const l=fameLevel();return l<=1?0:l*0.01;}; /* Lv1=0%, Lv2=2%, Lv3=3% … Lv10=10% */
+const cookTime=()=>round1(BASE_COOK*(1-(S.heatLv-1)*0.02-fameHeat())); /* 화력 Lv30 + 명성 Lv10 = 3.2초 */
+const moldUpCost=()=>10000*(S.moldCount+1);
 const heatUpCost=()=>30000*S.heatLv;
-const trayLv=()=>(S.trayMax-10)/2+1;
+const trayLv=()=>S.trayCap-10+1;
 const trayUpCost=()=>20000*trayLv();
-const waitMul=()=>(S.promo.stove?1.2:1)*(S.promo.tent?1.1:1);
-const visitMul=()=>(S.promo.sns?0.85:1)*(S.promo.neon?0.75:1)*(S.promo.balloon?0.65:1);
+const trackCost=id=>TRACKS[id].baseCost+S.tracks[id]*10000;
+const rankScore=()=>S.totalRev+S.fame*100;
 
 function fishSVG(fillColor, doneness){
   const body = doneness===0?'#EFDDB4':doneness===1?'#E9B45B':'#4A2E1A';
   return `<svg viewBox="0 0 104 60"><use href="#fish" fill="${body}"/>
     <circle cx="52" cy="30" r="7" fill="${fillColor}" stroke="rgba(0,0,0,.2)" stroke-width="1.5" opacity="${doneness===2?0.4:0.95}"/></svg>`;
 }
-function levelInfo(){
-  let li=0;
-  for(let i=0;i<LEVELS.length;i++) if(S.sales>=LEVELS[i].sales) li=i;
-  const cur=LEVELS[li], next=LEVELS[li+1];
-  return {idx:li, name:cur.name, prog:next?Math.min(1,(S.sales-cur.sales)/(next.sales-cur.sales)):1};
-}
 
 /* ══════════ HUD ══════════ */
 function renderHUD(){
   $('#money').textContent=fmt(S.money);
-  const lv=levelInfo();
-  $('#lvName').textContent=lv.name;
-  $('#repBar').style.width=(lv.prog*100)+'%';
-  $('#repBonus').textContent='+'+(lv.idx*12)+'%';
+  const lv=fameLevel();
+  $('#fameName').textContent=FAME_NAMES[lv-1];
+  $('#fameNum').textContent=fmt(S.fame);
+  $('#fameNext').textContent=lv<10?`/ 다음 ${fmt(FAME_CUM[lv])}`:'(MAX)';
+  $('#fameBar').style.width=(fameProg()*100)+'%';
+  $('#visitBonus').textContent='+'+Math.round(visitBonus()*100)+'%';
+  $('#costBonus').textContent='-'+Math.round(costDisc()*100)+'%';
   $('#cookLabel').textContent=cookTime().toFixed(1).replace(/\.0$/,'')+'초';
-  if(lv.idx>S.lastLv){
-    S.lastLv=lv.idx;
-    toast(`⭐ 명성 상승! [${lv.name}] 손님이 더 자주 찾아옵니다`);
+  if(lv>S.lastFameLv){
+    S.lastFameLv=lv;
+    toast(`⭐ 명성 상승! [${FAME_NAMES[lv-1]}] 유입 +${(lv-1)*5}% · 재료비 -${(lv-1)*2}% · 화력 +${lv<=1?0:lv}%`);
   }
-  const canBuy = FILLINGS.some(f=>!S.unlocked.includes(f.id)&&S.money>=f.unlock)
-    || PROMO.some(p=>!S.promo[p.id]&&S.money>=p.price)
+  const canBuy=shopHasBuyable();
+  $('#shopNoti').style.display=canBuy?'':'none';
+}
+function shopHasBuyable(){
+  const nextMenu=FILLINGS.find(f=>!S.unlocked.includes(f.id));
+  return (nextMenu&&S.money>=nextMenu.unlock)
     || (S.moldCount<MOLD_MAX&&S.money>=moldUpCost())
     || (S.heatLv<HEAT_MAX&&S.money>=heatUpCost())
-    || (S.trayMax<TRAY_CAP_MAX&&S.money>=trayUpCost());
-  $('#shopNoti').style.display=canBuy?'':'none';
+    || (S.trayCap<TRAY_CAP_MAX&&S.money>=trayUpCost())
+    || Object.keys(TRACKS).some(t=>S.tracks[t]<TRACK_MAX&&S.money>=trackCost(t));
+}
+function renderTimer(){
+  const el=$('#rankTimer');
+  if(mode!=='rank'){el.style.display='none';return;}
+  el.style.display='';
+  const t=Math.max(0,Math.ceil(S.rankTime));
+  el.textContent=`⏱ ${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`;
+  el.classList.toggle('hurry',t<=60);
 }
 
 /* ══════════ 속 선택 / 진열대 ══════════ */
@@ -425,19 +597,17 @@ function renderFillings(){
   $('#fillings').innerHTML=S.unlocked.map(id=>{
     const f=F(id);
     return `<div class="chip ${S.sel===id?'sel':''}" data-f="${id}">
-      <span class="dot" style="background:${f.color}"></span>${f.name}
-      <span class="price">${fmt(f.price)}원</span></div>`;
+      <span class="dot" style="background:${f.color}"></span>${f.name}</div>`;
   }).join('');
 }
 function renderTray(){
-  const items=Object.entries(S.tray).filter(([,n])=>n>0);
-  $('#trayItems').innerHTML = items.length
-    ? items.map(([id,n])=>`<span class="tray-item">${fishSVG(F(id).color,1)}×${n}</span>`).join('')
-    : `<span class="none">비어있음</span>`;
-  $('#trayCap').textContent=`${trayTotal()}/${S.trayMax}`;
+  $('#trayItems').innerHTML=S.unlocked.map(id=>{
+    const n=S.tray[id]||0;
+    return `<span class="tray-item">${fishSVG(F(id).color,1)}<span class="c">${n}</span><span class="mx">/${S.trayCap}</span></span>`;
+  }).join('');
 }
 
-/* ══════════ 무쇠 틀 (제자리 업데이트) ══════════ */
+/* ══════════ 무쇠 틀 ══════════ */
 function buildGriddle(){
   const g=$('#griddle');
   g.classList.toggle('cols3',S.moldCount>4);
@@ -471,7 +641,7 @@ function tickMoldBar(m){
   else if(m.state==='done')m.bar.style.width=Math.max(0,(1-m.doneT/DONE_WINDOW)*100)+'%';
 }
 
-/* ══════════ 손님 (제자리 업데이트) ══════════ */
+/* ══════════ 손님 ══════════ */
 function buildSlots(){
   $('#customers').innerHTML='';
   for(let i=0;i<3;i++){
@@ -481,22 +651,38 @@ function buildSlots(){
     $('#customers').appendChild(s);
   }
 }
+function remainQty(c){return c.items.reduce((a,it)=>a+it.qty,0);}
 function paintCustomer(i){
   const slot=document.querySelectorAll('.slot')[i];
   const c=S.customers[i];
   if(!c){slot.innerHTML=`<div class="empty">···</div>`;return;}
-  const f=F(c.filling);
   const ev=c.event?EVENTS[c.event]:null;
+  const rows=c.items.map((it,k)=>{
+    const f=F(it.id);
+    return `<div class="orow ${it.qty<=0?'doneRow':''}" data-k="${k}">
+      <span class="dot" style="background:${f.color}"></span>${f.name} ×<span class="oq">${it.qty}</span></div>`;
+  }).join('');
   slot.innerHTML=`<div class="customer ${ev?'event':''}" data-c="${i}">
     ${ev?`<span class="tag">${ev.tag}</span>`:''}
-    <span class="qty">${c.qty}</span>
+    <span class="qty">${remainQty(c)}</span>
     <div class="face">${c.face}</div>
-    <div class="order"><span class="dot" style="background:${f.color}"></span>${f.name}</div>
+    <div class="orders">${rows}</div>
     <div class="patience"><i></i></div>
   </div>`;
   c.el=slot.firstElementChild;
   c.bar=c.el.querySelector('.patience i');
   c.qtyEl=c.el.querySelector('.qty');
+  c.rowEls=[...c.el.querySelectorAll('.orow')];
+}
+function refreshOrderRows(c){
+  if(!c.el)return;
+  c.qtyEl.textContent=remainQty(c);
+  c.items.forEach((it,k)=>{
+    const row=c.rowEls[k];
+    if(!row)return;
+    row.querySelector('.oq').textContent=it.qty;
+    row.classList.toggle('doneRow',it.qty<=0);
+  });
 }
 function tickCustomerBar(c){
   if(!c.bar)return;
@@ -511,99 +697,95 @@ function toast(msg){
   const t=$('#toast');t.textContent=msg;t.classList.add('on');
   clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1800);
 }
-function floatText(x,y,txt,color){
-  const el=document.createElement('div');
-  el.className='float';el.textContent=txt;
-  el.style.left=x+'px';el.style.top=y+'px';el.style.color=color;
-  $('#app').appendChild(el);setTimeout(()=>el.remove(),950);
-}
 function floatAtEl(target,txt,color){
+  if(!target)return;
   const r=$('#app').getBoundingClientRect();
   const b=target.getBoundingClientRect();
-  floatText(b.left-r.left+b.width/2-14+(Math.random()*20-10), b.top-r.top-6, txt, color);
+  const el=document.createElement('div');
+  el.className='float';el.textContent=txt;el.style.color=color;
+  el.style.left=(b.left-r.left+b.width/2-14+(Math.random()*20-10))+'px';
+  el.style.top=(b.top-r.top-6)+'px';
+  $('#app').appendChild(el);setTimeout(()=>el.remove(),950);
 }
 
-/* ══════════ 판매 처리 ══════════ */
-function sellTo(i, amount){
+/* ══════════ 판매 (선착순 FIFO) ══════════ */
+function sellOne(i){
   const c=S.customers[i];
-  if(!c||c.leaving)return 0;
-  const have=S.tray[c.filling]||0;
-  const give=Math.min(have,c.qty,amount);
-  if(give<=0)return 0;
-  S.tray[c.filling]-=give;
-  c.qty-=give;
-  if(c.qtyEl)c.qtyEl.textContent=c.qty;
+  if(!c||c.leaving)return false;
+  const it=c.items.find(x=>x.qty>0&&(S.tray[x.id]||0)>0);
+  if(!it)return false;
+  S.tray[it.id]--;
+  it.qty--;
   const evd=c.event?EVENTS[c.event]:null;
-  const earn=Math.round(give*F(c.filling).price*(evd?evd.payMul:1));
-  S.money+=earn;
-  if(c.el)floatAtEl(c.el, earn>0?`+${fmt(earn)}원`:'🩷', earn>0?'#FFD98A':'#FF9EB5');
-  if(c.qty<=0)completeOrder(i);
+  const earn=Math.round(F(it.id).price*(evd?evd.payMul:1));
+  S.money+=earn;S.totalRev+=earn;S.soldCount++;
+  S.fame+=1; /* 붕어빵 1개 판매 = 명성 +1 */
+  floatAtEl(c.el, earn>0?`+${fmt(earn)}원`:'🩷', earn>0?'#FFD98A':'#FF9EB5');
+  refreshOrderRows(c);
+  if(remainQty(c)<=0)completeOrder(i);
   renderTray();renderHUD();
-  return give;
+  return true;
 }
 function completeOrder(i){
   const c=S.customers[i];
-  S.sales++;
+  if(c.event){
+    const bonus=2+Math.floor(Math.random()*4); /* 명성 2~5 */
+    S.fame+=bonus;
+    floatAtEl(c.el,`⭐+${bonus}`,'#FFE9A8');
+  }
   switch(c.event){
     case 'streamer':{
-      S.sales+=3;
-      const bonus=3000+levelInfo().idx*1500;
-      S.money+=bonus;
-      toast(`📹 "여기 미쳤어요 여러분!" 명성 UP! +${fmt(bonus)}원`);
-      break;
+      const cash=3000+(fameLevel()-1)*1000;
+      S.money+=cash;S.totalRev+=cash;
+      toast(`📹 "여기 미쳤어요 여러분!" +${fmt(cash)}원`);break;
     }
-    case 'critic':
-      S.sales+=5;
-      toast('🧐 "…인정하지. 별 다섯 개." 명성이 크게 올랐어요!');
-      break;
+    case 'critic': toast('🧐 "…인정하지. 별 다섯 개."');break;
     case 'santa':{
-      const gift=10000;
-      S.money+=gift;
-      toast(`🎅 "호호호! 착한 사장 선물이야" +${fmt(gift)}원`);
-      break;
+      S.money+=10000;S.totalRev+=10000;
+      toast('🎅 "호호호! 착한 사장 선물이야" +10,000원');break;
     }
-    case 'cat':
-      S.sales+=2;
-      toast('🐈 냐옹— 고양이가 단골이 됐어요. 훈훈한 소문이 퍼집니다 (명성 UP)');
-      break;
-    case 'vip':
-      toast('💎 "값어치를 하는군." VIP가 만족했어요');
-      break;
+    case 'cat': toast('🐈 냐옹— 고양이가 단골이 됐어요');break;
+    case 'vip': toast('💎 "값어치를 하는군."');break;
     case 'student':{
-      const tip=Math.floor(F(c.filling).price*0.5);
-      S.money+=tip;
-      toast(`🎓 "이거 먹고 합격할게요!" 팁 +${fmt(tip)}원`);
-      break;
+      const tip=Math.floor(F(c.items[0].id).price*0.5);
+      S.money+=tip;S.totalRev+=tip;
+      toast(`🎓 "이거 먹고 합격할게요!" 팁 +${fmt(tip)}원`);break;
     }
-    case 'hurry':
-      toast('💼 "감사합니다!!" 직장인이 뛰어갑니다');
-      break;
+    case 'hurry': toast('💼 "감사합니다!!" 직장인이 뛰어갑니다');break;
     default:
       if(Math.random()<0.12){
-        const tip=Math.floor(F(c.filling).price*0.5);
-        S.money+=tip;
+        const tip=Math.floor(F(c.items[0].id).price*0.5);
+        S.money+=tip;S.totalRev+=tip;
         toast(`팁 +${fmt(tip)}원! "잘 먹을게요~" 🥰`);
       }
   }
   c.leaving=true;
   if(c.el)c.el.classList.add('leaving');
-  setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
+  setTimeout(()=>{if(S&&S.customers[i]===c){S.customers[i]=null;paintCustomer(i);}},380);
+}
+/* 대기 중 손님을 도착 순서대로 */
+function customersFIFO(){
+  return S.customers
+    .map((c,i)=>({c,i}))
+    .filter(x=>x.c&&!x.c.leaving)
+    .sort((a,b)=>a.c.arrival-b.c.arrival);
 }
 
 /* ══════════ 액션 ══════════ */
-function tapMold(i,ev){
+function tapMold(i){
   const m=S.molds[i];
   if(m.state==='empty'){
     const f=F(S.sel);
-    if(S.money<f.cost){toast('재료비가 부족해요! 😢');return;}
-    S.money-=f.cost;
+    const cost=effCost(f);
+    if(S.money<cost){toast('재료비가 부족해요! 😢');return;}
+    S.money-=cost;
     Object.assign(m,{state:'cooking',filling:S.sel,prog:0,doneT:0});
     paintMold(i);renderHUD();
   }else if(m.state==='done'){
-    if(trayTotal()>=S.trayMax){toast('진열대가 꽉 찼어요! 🧺');return;}
+    if((S.tray[m.filling]||0)>=S.trayCap){toast(`${F(m.filling).name} 진열대가 꽉 찼어요! 🧺`);return;}
     S.tray[m.filling]=(S.tray[m.filling]||0)+1;
     Object.assign(m,{state:'empty'});
-    paintMold(i);renderTray();renderHUD();
+    paintMold(i);renderTray();
   }else if(m.state==='burnt'){
     Object.assign(m,{state:'empty'});
     paintMold(i);
@@ -613,41 +795,62 @@ function tapMold(i,ev){
 function tapCustomer(i){
   const c=S.customers[i];
   if(!c||c.leaving)return;
-  if((S.tray[c.filling]||0)<=0){toast(`${F(c.filling).name} 붕어빵이 없어요!`);return;}
-  sellTo(i,99); /* 터치하면 있는 만큼 한꺼번에 */
+  let sold=0;
+  while(sellOne(i)){sold++;if(sold>60)break;}
+  if(!sold)toast('주문한 붕어빵이 진열대에 없어요!');
 }
 
 /* ══════════ 손님 스폰 ══════════ */
-const FACES=['👵','👴','🧑','👧','👦','👩','👨','🧕','👮','🧑‍🎄','🧑‍💼','👩‍🦰'];
 function pickEvent(){
-  if(S.sales<5||Math.random()>=0.14)return null;
+  if(S.soldCount<5||Math.random()>=0.14)return null;
   const pool=[];
   for(const[k,v]of Object.entries(EVENTS))for(let i=0;i<v.w;i++)pool.push(k);
   return pool[Math.floor(Math.random()*pool.length)];
 }
+function randFillings(n){
+  const pool=[...S.unlocked];
+  const out=[];
+  for(let i=0;i<n&&pool.length;i++){
+    out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  }
+  return out;
+}
+function makeItems(event){
+  const lv=fameLevel();
+  const rq=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  switch(event){
+    case 'critic':{
+      const top=S.unlocked.reduce((a,b)=>F(a).price>=F(b).price?a:b);
+      return [{id:top,qty:1}];
+    }
+    case 'cat': return [{id:'pat',qty:1}];
+    case 'hurry': return [{id:S.unlocked[rq(0,S.unlocked.length-1)],qty:1}];
+    case 'student': return [{id:S.unlocked[rq(0,S.unlocked.length-1)],qty:2}];
+    case 'santa': return randFillings(Math.min(2,S.unlocked.length)).map(id=>({id,qty:rq(1,2)}));
+    case 'vip': return [{id:S.unlocked[rq(0,S.unlocked.length-1)],qty:rq(1,2)}];
+    case 'streamer': return [{id:S.unlocked[rq(0,S.unlocked.length-1)],qty:rq(2,3)}];
+    case 'group':
+      return randFillings(Math.min(2,S.unlocked.length)).map(id=>({id,qty:rq(3,4)}));
+    default:{
+      /* 일반 손님: 40% 확률로 2종류 주문 */
+      const types=(S.unlocked.length>=2&&Math.random()<0.4)?2:1;
+      const maxQ=1+Math.min(lv,3);
+      return randFillings(types).map(id=>({id,qty:rq(1,maxQ)}));
+    }
+  }
+}
 function spawnCustomer(){
   const slot=S.customers.findIndex(c=>c===null);
   if(slot<0)return;
-  const lv=levelInfo().idx;
   const event=pickEvent();
   const evd=event?EVENTS[event]:null;
-  let filling;
-  if(evd&&evd.expensive){
-    filling=S.unlocked.reduce((a,b)=>F(a).price>=F(b).price?a:b);
-  }else if(event==='cat'){
-    filling='pat'; /* 고양이는 팥붕만 */
-  }else{
-    filling=S.unlocked[Math.floor(Math.random()*S.unlocked.length)];
-  }
-  const basePat=(15+lv*1.2)*waitMul()*(evd?evd.patMul:1);
-  const qty=evd
-    ? evd.qtyR[0]+Math.floor(Math.random()*(evd.qtyR[1]-evd.qtyR[0]+1))
-    : 1+Math.floor(Math.random()*(2+Math.min(lv,3)));
+  const items=makeItems(event);
+  const total=items.reduce((a,it)=>a+it.qty,0);
+  const basePat=(13+total*2.2)*waitMul()*(evd?evd.patMul:1);
   S.customers[slot]={
-    filling,qty,event,
+    items,event,arrival:arrivalSeq++,
     face:evd?evd.face:FACES[Math.floor(Math.random()*FACES.length)],
     patience:basePat,maxP:basePat,leaving:false,
-    buyT:1.2, /* 자동 구매 첫 대기 */
   };
   paintCustomer(slot);
   if(evd)toast(evd.msg);
@@ -667,13 +870,16 @@ function renderShop(){
   const tab=document.querySelector('#shop .tabs .on').dataset.tab;
   let html='';
   if(tab==='menu'){
-    html=FILLINGS.map(f=>{
+    const nextIdx=FILLINGS.findIndex(f=>!S.unlocked.includes(f.id));
+    html=FILLINGS.map((f,idx)=>{
       const owned=S.unlocked.includes(f.id);
+      const isNext=idx===nextIdx;
+      const lockedBySeq=!owned&&!isNext;
       return `<div class="shop-item ${owned?'owned':''}">
         <div class="ico"><span class="dot" style="background:${f.color}"></span></div>
         <div class="info"><div class="name">${f.name} 붕어빵</div>
-          <div class="desc">${f.desc} · 판매가 ${fmt(f.price)}원 / 재료비 ${fmt(f.cost)}원</div></div>
-        <button class="buy" data-menu="${f.id}" ${owned||S.money<f.unlock?'disabled':''}>
+          <div class="desc">${f.desc} · 판매가 ${fmt(f.price)}원 / 재료비 ${fmt(effCost(f))}원${lockedBySeq?` · 🔒 ${FILLINGS[idx-1].name} 먼저 해금`:''}</div></div>
+        <button class="buy" data-menu="${f.id}" ${owned||lockedBySeq||S.money<f.unlock?'disabled':''}>
           ${owned?'보유중':f.unlock===0?'기본':fmt(f.unlock)+'원'}</button>
       </div>`;
     }).join('');
@@ -688,28 +894,32 @@ function renderShop(){
     html+=shopRow({
       ico:'⛽', name:'화력 강화', lv:`Lv.${S.heatLv}/${HEAT_MAX}`,
       desc:S.heatLv<HEAT_MAX
-        ?`굽는 시간 ${cookTime().toFixed(1)}초 → ${(BASE_COOK*(1-0.03*(S.heatLv+1))).toFixed(1)}초`
-        :'최대 화력! 1마리당 4초',
+        ?`굽는 시간 ${cookTime().toFixed(1)}초 → ${round1(BASE_COOK*(1-S.heatLv*0.02-fameHeat())).toFixed(1)}초`
+        :`최대 화력! 1마리당 ${cookTime().toFixed(1)}초`,
       btn:S.heatLv<HEAT_MAX?fmt(heatUpCost())+'원':'MAX',
       disabled:S.heatLv>=HEAT_MAX||S.money<heatUpCost(),
       owned:S.heatLv>=HEAT_MAX, data:'data-up="heat"',
     });
     html+=shopRow({
-      ico:'🧺', name:'진열대 확장', lv:`${S.trayMax}/${TRAY_CAP_MAX}마리`,
-      desc:S.trayMax<TRAY_CAP_MAX?`진열 가능 수량 +2 (${S.trayMax} → ${S.trayMax+2}마리)`:'최대치! 40마리 진열 가능',
-      btn:S.trayMax<TRAY_CAP_MAX?fmt(trayUpCost())+'원':'MAX',
-      disabled:S.trayMax>=TRAY_CAP_MAX||S.money<trayUpCost(),
-      owned:S.trayMax>=TRAY_CAP_MAX, data:'data-up="tray"',
+      ico:'🧺', name:'진열대 확장', lv:`각 ${S.trayCap}/${TRAY_CAP_MAX}마리`,
+      desc:S.trayCap<TRAY_CAP_MAX?`모든 붕어빵 진열대 +1 (각 ${S.trayCap} → ${S.trayCap+1}마리)`:'최대치! 종류별 40마리 진열',
+      btn:S.trayCap<TRAY_CAP_MAX?fmt(trayUpCost())+'원':'MAX',
+      disabled:S.trayCap>=TRAY_CAP_MAX||S.money<trayUpCost(),
+      owned:S.trayCap>=TRAY_CAP_MAX, data:'data-up="tray"',
     });
   }else{
-    html=PROMO.map(p=>{
-      const owned=!!S.promo[p.id];
+    html=Object.entries(TRACKS).map(([id,t])=>{
+      const lv=S.tracks[id];
+      const max=lv>=TRACK_MAX;
+      const curName=t.steps[lv];
+      const nextName=max?null:t.steps[lv+1];
       return shopRow({
-        ico:p.ico, name:p.name, lv:'',
-        desc:p.desc,
-        btn:owned?'보유중':fmt(p.price)+'원',
-        disabled:owned||S.money<p.price,
-        owned, data:`data-promo="${p.id}"`,
+        ico:t.icon,
+        name:curName, lv:`${lv*5}%`,
+        desc:max?`최대 단계! ${t.effect} +30%`:`다음: ${nextName} — ${t.effect} +${(lv+1)*5}%`,
+        btn:max?'MAX':fmt(trackCost(id))+'원',
+        disabled:max||S.money<trackCost(id),
+        owned:max, data:`data-track="${id}"`,
       });
     }).join('');
   }
@@ -717,10 +927,18 @@ function renderShop(){
 }
 
 /* ══════════ 게임 루프 ══════════ */
-let last=performance.now();
+let last=performance.now(), timerAcc=0;
 function loop(now){
   const dt=Math.min(0.1,(now-last)/1000);last=now;
-  if(S.paused){requestAnimationFrame(loop);return;}
+  if(!S||S.paused){requestAnimationFrame(loop);return;}
+
+  /* 랭크 타이머 */
+  if(mode==='rank'){
+    S.rankTime-=dt;
+    timerAcc+=dt;
+    if(timerAcc>0.25){timerAcc=0;renderTimer();}
+    if(S.rankTime<=0){finishRank();requestAnimationFrame(loop);return;}
+  }
 
   /* 굽기 */
   const ct=cookTime();
@@ -731,46 +949,189 @@ function loop(now){
       else tickMoldBar(m);
     }else if(m.state==='done'){
       m.doneT+=dt;
-      if(S.promo.alba&&trayTotal()<S.trayMax){
-        S.tray[m.filling]=(S.tray[m.filling]||0)+1;
-        Object.assign(m,{state:'empty'});paintMold(i);renderTray();
-      }else if(m.doneT>=DONE_WINDOW){m.state='burnt';paintMold(i);}
+      if(m.doneT>=DONE_WINDOW){m.state='burnt';paintMold(i);}
       else tickMoldBar(m);
     }
   });
 
-  /* 손님: 자동 구매 + 인내심 */
+  /* 자동 판매: 0.9초마다, 먼저 온 손님부터 1개씩 */
+  S.sellT-=dt;
+  if(S.sellT<=0){
+    S.sellT=0.9;
+    for(const {i} of customersFIFO())sellOne(i);
+  }
+
+  /* 인내심 */
   S.customers.forEach((c,i)=>{
     if(!c||c.leaving)return;
-    c.buyT-=dt;
-    if(c.buyT<=0&&(S.tray[c.filling]||0)>0){
-      sellTo(i,1);
-      c.buyT=1.0;
-    }
     c.patience-=dt;
     tickCustomerBar(c);
     if(c.patience<=0){
       c.leaving=true;if(c.el)c.el.classList.add('leaving');
       toast(c.event==='cat'?'🐈 고양이가 시무룩하게 떠났어요…':'손님이 그냥 가버렸어요… 💢');
-      setTimeout(()=>{S.customers[i]=null;paintCustomer(i);},380);
+      setTimeout(()=>{if(S&&S.customers[i]===c){S.customers[i]=null;paintCustomer(i);}},380);
     }
   });
 
-  /* 스폰: 명성 + 홍보 효과 */
+  /* 스폰 */
   S.spawnT-=dt;
   if(S.spawnT<=0){
     spawnCustomer();
-    const lv=levelInfo().idx;
-    const base=Math.max(2.2, 7.5-lv*0.75)*visitMul();
+    const base=7.0/(1+visitBonus());
     S.spawnT=base*(0.7+Math.random()*0.6);
   }
   requestAnimationFrame(loop);
 }
 
+/* ══════════ 세이브/로드 ══════════ */
+function serialize(){
+  return {
+    money:S.money,fame:S.fame,totalRev:S.totalRev,soldCount:S.soldCount,
+    unlocked:[...S.unlocked],tracks:{...S.tracks},
+    heatLv:S.heatLv,trayCap:S.trayCap,moldCount:S.moldCount,
+    sel:S.sel,tray:{...S.tray},lastFameLv:S.lastFameLv,
+  };
+}
+function hydrate(data){
+  const s=freshState();
+  Object.assign(s,data);
+  s.molds=Array.from({length:s.moldCount},()=>({state:'empty'}));
+  s.customers=[null,null,null];
+  s.paused=true;
+  return s;
+}
+function getSaves(){return store.get('bp_saves',[null,null,null]);}
+function saveToSlot(k){
+  const saves=getSaves();
+  saves[k]={ts:Date.now(),data:serialize()};
+  store.set('bp_saves',saves);
+  curSlot=k;
+  toast(`💾 슬롯 ${k+1}에 저장 완료!`);
+}
+function slotSummary(sv){
+  const d=sv.data;
+  const lv=(()=>{let l=1;for(let i=10;i>=1;i--){if(d.fame>=FAME_CUM[i-1]){l=i;break;}}return l;})();
+  const dt=new Date(sv.ts);
+  const when=`${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+  return `💰 ${fmt(d.money)}원 · ⭐ ${FAME_NAMES[lv-1]} (${fmt(d.fame)})<br>🐟 메뉴 ${d.unlocked.length}종 · 틀 ${d.moldCount}구 · ${when}`;
+}
+
+/* ══════════ 화면 전환 ══════════ */
+function show(id){
+  document.querySelectorAll('.ov').forEach(o=>o.classList.remove('on'));
+  if(id)$(id).classList.add('on');
+}
+function enterGame(state, m, slotIdx){
+  S=state;mode=m;curSlot=slotIdx??null;
+  arrivalSeq=0;
+  $('#game').classList.add('on');
+  buildSlots();buildGriddle();
+  renderHUD();renderFillings();renderTray();renderTimer();
+  $('#saveBtn').style.display=mode==='infinite'?'':'none';
+  show(null);
+  if(m==='rank'||slotIdx===null||!getSaves()[slotIdx]){/* 새 게임이면 튜토리얼 */}
+}
+function exitToHome(){
+  S=null;
+  $('#game').classList.remove('on');
+  $('#shop').classList.remove('open');$('#dim').classList.remove('on');
+  show('#home');
+}
+
+/* ══ 무한 모드: 슬롯 화면 ══ */
+let slotMode='load'; /* 'load' | 'save' */
+function openSlots(m){
+  slotMode=m;
+  $('#slotsTitle').textContent=m==='load'?'🔥 무한 모드':'💾 저장 슬롯 선택';
+  $('#slotsSub').textContent=m==='load'?'이어하거나 새로 시작하세요':'저장할 슬롯을 선택하세요 (덮어쓰기)';
+  const saves=getSaves();
+  /* 최근 플레이 순 정렬(있는 것 우선, ts 내림차순) */
+  const order=[0,1,2].sort((a,b)=>{
+    const A=saves[a],B=saves[b];
+    if(!!A!==!!B)return A?-1:1;
+    if(!A)return a-b;
+    return B.ts-A.ts;
+  });
+  let html='';
+  order.forEach((k,pos)=>{
+    const sv=saves[k];
+    if(sv){
+      html+=`<div class="slotItem" data-slot="${k}">
+        ${pos===0&&saves.some(Boolean)?'<span class="recent">최근 플레이</span>':''}
+        <div class="t">슬롯 ${k+1}</div>
+        <div class="d">${slotSummary(sv)}</div>
+      </div>`;
+    }else{
+      html+=`<div class="slotItem empty" data-slot="${k}">슬롯 ${k+1} — ${m==='load'?'비어있음 (새 게임 시작)':'비어있음 (여기에 저장)'}</div>`;
+    }
+  });
+  $('#slotList').innerHTML=html;
+  show('#slotsOv');
+}
+$('#slotList').addEventListener('click',ev=>{
+  const el=ev.target.closest('[data-slot]');
+  if(!el)return;
+  const k=+el.dataset.slot;
+  const saves=getSaves();
+  if(slotMode==='save'){
+    saveToSlot(k);
+    show(null);$('#pauseOv').classList.add('on');
+    return;
+  }
+  if(saves[k]){
+    /* 이어하기: lastPlayed 갱신 */
+    saves[k].ts=Date.now();store.set('bp_saves',saves);
+    enterGame(hydrate(saves[k].data),'infinite',k);
+    $('#pauseOv').classList.add('on');
+  }else{
+    enterGame(freshState(),'infinite',k);
+    show('#tuto');
+  }
+});
+
+/* ══ 랭킹 ══ */
+function getRanks(){return store.get('bp_rank',[]);}
+function addRank(entry){
+  const r=getRanks();
+  r.push(entry);
+  r.sort((a,b)=>b.score-a.score);
+  store.set('bp_rank',r.slice(0,20));
+}
+function renderRanking(){
+  const r=getRanks();
+  $('#rankList').innerHTML=r.length
+    ? r.map((e,i)=>{
+      const dt=new Date(e.ts);
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+      return `<div class="rankItem">
+        <span class="no">${medal}</span>
+        <div class="info"><div class="nick">${e.nick}</div>
+        <div class="det">판매액 ${fmt(e.rev)}원 · 명성 ${fmt(e.fame)} · ${dt.getMonth()+1}/${dt.getDate()}</div></div>
+        <span class="sc">${fmt(e.score)}점</span>
+      </div>`;
+    }).join('')
+    : `<div class="rankEmpty">아직 기록이 없어요.<br>랭크 모드에 도전해보세요! ⏱</div>`;
+}
+
+/* ══ 랭크 종료 ══ */
+function finishRank(){
+  S.paused=true;
+  const rev=S.totalRev, fame=S.fame, score=rankScore();
+  const nick=store.get('bp_nick','')||'붕어빵사장님';
+  addRank({nick,rev,fame,score,ts:Date.now()});
+  $('#resTable').innerHTML=`
+    <tr><td>💰 총 판매액</td><td>${fmt(rev)}원</td></tr>
+    <tr><td>⭐ 명성 (×100점)</td><td>${fmt(fame)}</td></tr>
+    <tr><td>🐟 판매한 붕어빵</td><td>${fmt(S.soldCount)}개</td></tr>
+    <tr class="total"><td>총점</td><td>${fmt(score)}점</td></tr>`;
+  show('#resultOv');
+}
+
 /* ══════════ 이벤트 바인딩 ══════════ */
 document.addEventListener('click',ev=>{
+  if(!S)return;
   const mold=ev.target.closest('.mold');
-  if(mold){tapMold(+mold.dataset.i,ev);return;}
+  if(mold){tapMold(+mold.dataset.i);return;}
   const cust=ev.target.closest('.customer');
   if(cust){tapCustomer(+cust.dataset.c);return;}
   const chip=ev.target.closest('.chip');
@@ -779,10 +1140,11 @@ document.addEventListener('click',ev=>{
   const menuBtn=ev.target.closest('[data-menu]');
   if(menuBtn&&!menuBtn.disabled){
     const f=F(menuBtn.dataset.menu);
-    if(S.money>=f.unlock){
+    const nextIdx=FILLINGS.findIndex(x=>!S.unlocked.includes(x.id));
+    if(FILLINGS[nextIdx]?.id===f.id&&S.money>=f.unlock){
       S.money-=f.unlock;S.unlocked.push(f.id);
-      toast(`${f.name} 붕어빵 출시! 🎉`);
-      renderFillings();renderShop();renderHUD();
+      toast(`${f.name} 붕어빵 출시! 전용 진열대도 열렸어요 🎉`);
+      renderFillings();renderTray();renderShop();renderHUD();
     }
     return;
   }
@@ -797,37 +1159,88 @@ document.addEventListener('click',ev=>{
     }else if(kind==='heat'&&S.heatLv<HEAT_MAX&&S.money>=heatUpCost()){
       S.money-=heatUpCost();S.heatLv++;
       toast(`화력 강화 Lv.${S.heatLv}! 굽는 시간 ${cookTime().toFixed(1)}초 ⛽`);
-    }else if(kind==='tray'&&S.trayMax<TRAY_CAP_MAX&&S.money>=trayUpCost()){
-      S.money-=trayUpCost();S.trayMax+=2;
+    }else if(kind==='tray'&&S.trayCap<TRAY_CAP_MAX&&S.money>=trayUpCost()){
+      S.money-=trayUpCost();S.trayCap++;
       renderTray();
-      toast(`진열대 확장! 최대 ${S.trayMax}마리 🧺`);
+      toast(`진열대 확장! 종류별 최대 ${S.trayCap}마리 🧺`);
     }
     renderShop();renderHUD();
     return;
   }
-  const promoBtn=ev.target.closest('[data-promo]');
-  if(promoBtn&&!promoBtn.disabled){
-    const p=PROMO.find(x=>x.id===promoBtn.dataset.promo);
-    if(S.money>=p.price){
-      S.money-=p.price;S.promo[p.id]=true;
-      toast(`${p.name} 구매 완료! ✨`);
+  const trackBtn=ev.target.closest('[data-track]');
+  if(trackBtn&&!trackBtn.disabled){
+    const id=trackBtn.dataset.track;
+    if(S.tracks[id]<TRACK_MAX&&S.money>=trackCost(id)){
+      S.money-=trackCost(id);S.tracks[id]++;
+      toast(`${TRACKS[id].steps[S.tracks[id]]} 완료! ${TRACKS[id].effect} +${S.tracks[id]*5}% ✨`);
       renderShop();renderHUD();
     }
     return;
   }
 });
+/* 홈 */
+$('#btnInf').onclick=()=>openSlots('load');
+$('#btnRank').onclick=()=>show('#rankConfirm');
+$('#btnRanking').onclick=()=>{renderRanking();show('#rankingOv');};
+$('#btnSet').onclick=()=>{$('#nickInput').value=store.get('bp_nick','');show('#setOv');};
+$('#slotsBack').onclick=()=>{
+  if(slotMode==='save'&&S){show(null);$('#pauseOv').classList.add('on');}
+  else show('#home');
+};
+$('#rankBack').onclick=()=>show('#home');
+$('#rankStart').onclick=()=>{enterGame(freshState(),'rank',null);show('#tuto');};
+$('#rankingBack').onclick=()=>show('#home');
+$('#setBack').onclick=()=>{
+  store.set('bp_nick',$('#nickInput').value.trim().slice(0,10));
+  show('#home');
+};
+/* 두 번 탭 확인 (confirm 대화상자가 차단되는 환경 대비) */
+const armed={};
+function armConfirm(key,msg){
+  if(armed[key]&&Date.now()-armed[key]<3000){armed[key]=0;return true;}
+  armed[key]=Date.now();
+  toast(msg);
+  return false;
+}
+$('#wipeBtn').onclick=()=>{
+  if(!armConfirm('wipe','⚠️ 한 번 더 누르면 모든 데이터가 삭제돼요'))return;
+  store.del('bp_saves');store.del('bp_rank');store.del('bp_nick');
+  $('#nickInput').value='';
+  toast('모든 데이터가 초기화됐어요');
+};
+/* 결과 */
+$('#resRanking').onclick=()=>{
+  S=null;$('#game').classList.remove('on');
+  renderRanking();show('#rankingOv');
+};
+$('#resHome').onclick=exitToHome;
+/* 게임 내 */
+$('#pauseBtn').onclick=()=>{S.paused=true;show('#pauseOv');};
+$('#resumeBtn').onclick=()=>{S.paused=false;show(null);};
+$('#saveBtn').onclick=()=>{
+  if(curSlot!==null){saveToSlot(curSlot);}
+  else openSlots('save');
+};
+$('#homeBtn').onclick=()=>{
+  const msg=mode==='rank'
+    ?'⚠️ 한 번 더 누르면 랭크 도전을 포기해요 (기록 미저장)'
+    :'⚠️ 한 번 더 누르면 홈으로! 저장 안 한 진행은 사라져요';
+  if(!armConfirm('home',msg))return;
+  exitToHome();
+};
+$('#tutoBtn').onclick=()=>{
+  show(null);
+  S.paused=false;
+  spawnCustomer();
+};
 $('#shopBtn').onclick=()=>{$('#shop').classList.add('open');$('#dim').classList.add('on');renderShop();};
 $('#shopClose').onclick=$('#dim').onclick=()=>{$('#shop').classList.remove('open');$('#dim').classList.remove('on');};
 document.querySelectorAll('#shop .tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#shop .tabs button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');renderShop();
 });
-$('#pauseBtn').onclick=()=>{S.paused=true;$('#pauseOv').classList.add('on');};
-$('#resumeBtn').onclick=()=>{S.paused=false;$('#pauseOv').classList.remove('on');};
-$('#tutoBtn').onclick=()=>{$('#tuto').remove();S.paused=false;spawnCustomer();};
 
 /* ══════════ 초기화 ══════════ */
-for(let i=0;i<S.moldCount;i++)S.molds.push({state:'empty'});
 for(let i=0;i<14;i++){
   const s=document.createElement('div');s.className='snow';s.textContent='❄';
   s.style.left=Math.random()*100+'%';
@@ -836,8 +1249,6 @@ for(let i=0;i<14;i++){
   s.style.fontSize=(6+Math.random()*8)+'px';
   $('#app').appendChild(s);
 }
-buildSlots();buildGriddle();
-renderHUD();renderFillings();renderTray();
 requestAnimationFrame(loop);
 </script>
 </body>
